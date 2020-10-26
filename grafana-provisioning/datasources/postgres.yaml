@@ -1,0 +1,19 @@
+# config file version
+apiVersion: 1
+
+# list of datasources to insert/update depending
+# what's available in the database
+datasources:
+
+  - name: PostgreSQL
+    isDefault: true
+    type: postgres
+    url: db:5432
+    database: postgres
+    user: postgres
+    secureJsonData:
+      password: postgres
+    jsonData:
+      sslmode: "disable"
+      postgresVersion: 1300
+      timescaledb: false

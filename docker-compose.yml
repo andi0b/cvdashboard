@@ -7,7 +7,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - "./grafana:/var/lib/grafana"
+      - "./data/grafana:/var/lib/grafana"
+      - "./grafana-provisioning:/etc/grafana/provisioning"
 
   db:
     image: postgres:13
