@@ -18,7 +18,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1603793840088,
+  "iteration": 1603801094085,
   "links": [],
   "panels": [
     {
@@ -98,8 +98,8 @@
           "format": "time_series",
           "group": [],
           "metricColumn": "region",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inz_faelle_7d\nFROM timeline_full\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -137,7 +137,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "7 Tage Inzidenz",
+      "title": "$inzidenz_days Tage Inzidenz (pro $per_capita Einwohner)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -253,8 +253,8 @@
           "format": "time_series",
           "group": [],
           "metricColumn": "region",
-          "rawQuery": false,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inz_faelle_7d\nFROM timeline_full\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -289,7 +289,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "7 Tage Inzidenz",
+      "title": "$inzidenz_days Tage Inzidenz (pro $per_capita Einwohner)",
       "type": "gauge"
     },
     {
@@ -316,7 +316,7 @@
       "fieldConfig": {
         "defaults": {
           "custom": {},
-          "unit": "none"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -363,7 +363,7 @@
           "hide": false,
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  (inz_faelle_7d - lag(inz_faelle_7d, $deltaaverage) OVER (PARTITION BY region ORDER BY date))/$deltaaverage AS \"inz_faelle_7d\"\nFROM timeline_full\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz_increase_daily_percent\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -412,7 +412,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Tägliche Veränderung 7 Tage Inzidenz ($deltaaverage Tage Durchschnitt)",
+      "title": "Tägliche Veränderung $inzidenz_days Tage Inzidenz ($delta_days Tage Durchschnitt)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -429,7 +429,7 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "format": "percent",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -487,7 +487,7 @@
               }
             ]
           },
-          "unit": "none"
+          "unit": "percent"
         },
         "overrides": []
       },
@@ -525,7 +525,7 @@
           "hide": false,
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  (inz_faelle_7d - lag(inz_faelle_7d, $deltaaverage) OVER (PARTITION BY region ORDER BY date))/$deltaaverage AS \"inz_faelle_7d\"\nFROM timeline_full\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz_increase_daily_percent\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -578,7 +578,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Tägliche Veränderung 7 Tage Inzidenz (Durchschnitt $deltaaverage Tage)",
+      "title": "Tägliche Veränderung $inzidenz_days Tage Inzidenz (letzte $delta_days Tage)",
       "transformations": [],
       "type": "gauge"
     }
@@ -594,8 +594,14 @@
         "current": {
           "selected": true,
           "tags": [],
-          "text": [],
-          "value": []
+          "text": [
+            "Eisenstadt(Stadt)",
+            "Eisenstadt-Umgebung"
+          ],
+          "value": [
+            "Eisenstadt(Stadt)",
+            "Eisenstadt-Umgebung"
+          ]
         },
         "datasource": "PostgreSQL",
         "definition": "SELECT DISTINCT bezirk FROM timeline_bezirke",
@@ -620,7 +626,6 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "tags": [],
           "text": [
             "Österreich"
           ],
@@ -648,17 +653,125 @@
         "useTags": false
       },
       {
-        "auto": false,
-        "auto_count": 30,
-        "auto_min": "10s",
+        "allValue": null,
         "current": {
           "selected": true,
+          "text": "7",
+          "value": "7"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Inzidenz Tage",
+        "multi": false,
+        "name": "inzidenz_days",
+        "options": [
+          {
+            "selected": false,
+            "text": "1",
+            "value": "1"
+          },
+          {
+            "selected": false,
+            "text": "2",
+            "value": "2"
+          },
+          {
+            "selected": false,
+            "text": "3",
+            "value": "3"
+          },
+          {
+            "selected": false,
+            "text": "4",
+            "value": "4"
+          },
+          {
+            "selected": false,
+            "text": "5",
+            "value": "5"
+          },
+          {
+            "selected": false,
+            "text": "6",
+            "value": "6"
+          },
+          {
+            "selected": true,
+            "text": "7",
+            "value": "7"
+          },
+          {
+            "selected": false,
+            "text": "10",
+            "value": "10"
+          },
+          {
+            "selected": false,
+            "text": "14",
+            "value": "14"
+          },
+          {
+            "selected": false,
+            "text": "20",
+            "value": "20"
+          },
+          {
+            "selected": false,
+            "text": "30",
+            "value": "30"
+          }
+        ],
+        "query": "1,2,3,4,5,6,7,10,14,20,30",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "100000",
+          "value": "100000"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Per capita",
+        "multi": false,
+        "name": "per_capita",
+        "options": [
+          {
+            "selected": false,
+            "text": "1000",
+            "value": "1000"
+          },
+          {
+            "selected": true,
+            "text": "100000",
+            "value": "100000"
+          },
+          {
+            "selected": false,
+            "text": "1000000",
+            "value": "1000000"
+          }
+        ],
+        "query": "1000,100000,1000000",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
           "text": "5",
           "value": "5"
         },
         "hide": 0,
-        "label": "Veränderung Zeitraum Durchschnitt",
-        "name": "deltaaverage",
+        "includeAll": false,
+        "label": "Veränderung Glättung Tage",
+        "multi": false,
+        "name": "delta_days",
         "options": [
           {
             "selected": false,
@@ -697,16 +810,6 @@
           },
           {
             "selected": false,
-            "text": "8",
-            "value": "8"
-          },
-          {
-            "selected": false,
-            "text": "9",
-            "value": "9"
-          },
-          {
-            "selected": false,
             "text": "10",
             "value": "10"
           },
@@ -717,35 +820,19 @@
           },
           {
             "selected": false,
-            "text": "21",
-            "value": "21"
-          },
-          {
-            "selected": false,
-            "text": "28",
-            "value": "28"
+            "text": "20",
+            "value": "20"
           },
           {
             "selected": false,
             "text": "30",
             "value": "30"
-          },
-          {
-            "selected": false,
-            "text": "60",
-            "value": "60"
-          },
-          {
-            "selected": false,
-            "text": "90",
-            "value": "90"
           }
         ],
-        "query": "1,2,3,4,5,6,7,8,9,10,14,21,28,30,60,90",
+        "query": "1,2,3,4,5,6,7,10,14,20,30",
         "queryValue": "",
-        "refresh": 2,
         "skipUrlSync": false,
-        "type": "interval"
+        "type": "custom"
       }
     ]
   },
@@ -768,7 +855,7 @@
     ]
   },
   "timezone": "",
-  "title": "Bezirk",
+  "title": "Inzidenz",
   "uid": "c664EFpGk",
-  "version": 3
+  "version": 7
 }
