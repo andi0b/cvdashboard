@@ -1,5 +1,4 @@
 drop function if exists inzidenz(days integer, per_capita integer, delta_days integer);
-
 create or replace function inzidenz(days int default 7, per_capita int default 100000, delta_days int default 5)
     returns table
             (
@@ -35,6 +34,33 @@ from (
      calculate_deltas(inzidenz, inzidenz_days_ago, delta_days) deltas
 $$;
 
+drop function if exists faelle(delta_days int);
+create or replace function faelle(delta_days int default 5)
+    returns table
+            (
+                date                          timestamp,
+                region                        varchar,
+                rid                           int,
+                typ                           varchar,
+                faelle_delta                  float,
+                faelle_delta_daily            float,
+                faelle_increase_percent       float,
+                faelle_increase_daily_percent float
+            )
+    language sql
+as
+$$
+select date, region, rid, typ, deltas.*
+from (
+         select *,
+                avg(anz_faelle) over w_current_period  as faelle_current_period,
+                avg(anz_faelle) over w_previous_period as faelle_previous_period
+         from timeline_full
+             window w_current_period as (partition by region order by date rows delta_days - 1 preceding),
+                 w_previous_period as (partition by region order by date rows between delta_days * 2 - 1 preceding and delta_days preceding)) a,
+    calculate_deltas(faelle_current_period, faelle_previous_period, delta_days) deltas
+$$;
+
 
 create or replace function calculate_deltas(value_current float, value_days_ago float, delta_days int default 1,
                                             out delta float,
@@ -65,6 +91,3 @@ begin
     increase_percent_daily := increase_ratio_daily * 100;
 end;
 $$;
-
-
-select * from inzidenz2() where region = 'Österreich'
