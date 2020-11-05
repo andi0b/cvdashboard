@@ -8,6 +8,7 @@ services:
       - "127.0.0.1:3000:3000"
     volumes:
       - "./grafana-provisioning:/etc/grafana/provisioning"
+      - "./grafana-provisioning/grafana.ini:/etc/grafana/grafana.ini"
 
   db:
     image: postgres:13

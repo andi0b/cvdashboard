@@ -11,5 +11,6 @@ export OPENSSL_CONF=$(dirname "$0")/openssl.cnf
 
 curl -o $DIR/CovidFaelle_Timeline_GKZ.csv https://covid19-dashboard.ages.at/data/CovidFaelle_Timeline_GKZ.csv
 curl -o $DIR/CovidFaelle_Timeline.csv https://covid19-dashboard.ages.at/data/CovidFaelle_Timeline.csv
+curl -o $DIR/CovidFallzahlen.csv https://covid19-dashboard.ages.at/data/CovidFallzahlen.csv
 
 sed -i 's/,/./g' $DIR/*csv

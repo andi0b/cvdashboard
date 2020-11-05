@@ -3,6 +3,7 @@ begin;
 drop view if exists timeline_full;
 drop table if exists timeline_bezirke;
 drop table if exists timeline_laender;
+drop table if exists fallzahlen;
 
 
 create table timeline_bezirke
@@ -44,6 +45,21 @@ create table timeline_laender
 );
 create index idx_timeline_laender_date on timeline_laender (date asc);
 create index idx_timeline_laender_gkz on timeline_laender (bid asc);
+
+
+create table fallzahlen
+(
+    id           serial    not null,
+    date         timestamp not null,
+    bundesland   varchar   not null,
+    bid          int       not null,
+    fz_hosp      int       not null,
+    fz_icu       int       not null,
+    fz_hosp_free int       not null,
+    fz_icu_free  int       not null,
+    primary key (id)
+);
+
 
 
 create view timeline_full as
