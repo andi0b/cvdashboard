@@ -18,7 +18,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1604583751429,
+  "iteration": 1604585028070,
   "links": [],
   "panels": [
     {
@@ -489,28 +489,57 @@
           ]
         },
         "datasource": "PostgreSQL",
-        "definition": "SELECT DISTINCT bezirk FROM timeline_bezirke",
+        "definition": "select bezirk from bezirk",
         "hide": 0,
         "includeAll": false,
         "label": "Bezirk",
         "multi": true,
         "name": "bezirk",
         "options": [],
-        "query": "SELECT DISTINCT bezirk FROM timeline_bezirke",
+        "query": "select bezirk from bezirk",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
+        "tagValuesQuery": "select bezirk from bezirk where bundesland = '$tag'",
+        "tags": [
+          {
+            "text": "Burgenland"
+          },
+          {
+            "text": "Kärnten"
+          },
+          {
+            "text": "Niederösterreich"
+          },
+          {
+            "text": "Oberösterreich"
+          },
+          {
+            "text": "Salzburg"
+          },
+          {
+            "text": "Steiermark"
+          },
+          {
+            "text": "Tirol"
+          },
+          {
+            "text": "Vorarlberg"
+          },
+          {
+            "text": "Wien"
+          }
+        ],
+        "tagsQuery": "select bundesland from bezirk",
         "type": "query",
-        "useTags": false
+        "useTags": true
       },
       {
         "allValue": null,
         "current": {
           "selected": true,
+          "tags": [],
           "text": [
             "Österreich"
           ],
@@ -519,14 +548,14 @@
           ]
         },
         "datasource": "PostgreSQL",
-        "definition": "SELECT DISTINCT bundesland FROM timeline_laender",
+        "definition": "select bundesland from bundesland",
         "hide": 0,
         "includeAll": false,
         "label": "Bundesland",
         "multi": true,
         "name": "bundesland",
         "options": [],
-        "query": "SELECT DISTINCT bundesland FROM timeline_laender",
+        "query": "select bundesland from bundesland",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -540,7 +569,7 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "7",
           "value": "7"
         },
@@ -634,5 +663,5 @@
   "timezone": "",
   "title": "Fälle",
   "uid": "9778YUpGz",
-  "version": 2
+  "version": 4
 }

@@ -5,7 +5,7 @@ services:
   grafana:
     image: grafana/grafana:7.2.1
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     volumes:
       - "./grafana-provisioning:/etc/grafana/provisioning"
 
@@ -14,7 +14,7 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - "./data:/data"
       - "./db:/db"

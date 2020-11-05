@@ -50,7 +50,7 @@ create view timeline_full as
 select date,
        bezirk as region,
        gkz    as rid,
-       'b'        as typ,
+       'b'    as typ,
        anz_einwohner,
        anz_faelle,
        anz_faelle_sum,
@@ -77,5 +77,24 @@ select date,
        anz_geheilte_sum
 from timeline_laender
 order by date asc, rid asc;
+
+
+drop table bundesland;
+create table bundesland
+(
+    bid        int     not null,
+    bundesland varchar not null,
+    primary key (bid)
+);
+
+drop table bezirk;
+create table bezirk
+(
+    gkz        int     not null,
+    bezirk     varchar not null,
+    bid        int     not null,
+    bundesland varchar not null,
+    primary key (gkz)
+);
 
 commit;
