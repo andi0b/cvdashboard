@@ -716,7 +716,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT DISTINCT ON (metric)\n  region AS metric,\n  inzidenz,\n  inzidenz_increase_daily_percent,\n  anz_faelle                    \nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND \n  typ = 'l'\nORDER BY metric ASC, date DESC",
+          "rawSql": "SELECT DISTINCT ON (region)\n  region AS \"Bundesland\",\n  inzidenz as \"Inzidenz $inzidenz_days Tage\",\n  inzidenz_increase_daily_percent as \"Täglicher Anstieg %\",\n  anz_faelle as \"Fälle $inzidenz_days Tage\"\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND \n  typ = 'l'\nORDER BY region ASC, date DESC",
           "refId": "A",
           "select": [
             [
