@@ -17,8 +17,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
-  "iteration": 1603801094085,
+  "id": 2,
+  "iteration": 1604581880288,
   "links": [],
   "panels": [
     {
@@ -32,7 +32,7 @@
       },
       "id": 10,
       "panels": [],
-      "title": "7 Tage Inzidenz",
+      "title": "${inzidenz_days} Tage Inzidenz",
       "type": "row"
     },
     {
@@ -137,7 +137,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "$inzidenz_days Tage Inzidenz (pro $per_capita Einwohner)",
+      "title": "Inzidenz (pro $per_capita Einwohner)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -303,7 +303,7 @@
       },
       "id": 8,
       "panels": [],
-      "title": "Veränderung 7 Tage Inzidenz",
+      "title": "Veränderung ${inzidenz_days} Tage Inzidenz",
       "type": "row"
     },
     {
@@ -412,7 +412,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Tägliche Veränderung $inzidenz_days Tage Inzidenz ($delta_days Tage Durchschnitt)",
+      "title": "Tägliche Veränderung Inzidenz ($delta_days Tage Durchschnitt)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -581,6 +581,169 @@
       "title": "Tägliche Veränderung $inzidenz_days Tage Inzidenz (letzte $delta_days Tage)",
       "transformations": [],
       "type": "gauge"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 27
+      },
+      "id": 15,
+      "panels": [],
+      "title": "Tabellen",
+      "type": "row"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 0,
+        "y": 28
+      },
+      "id": 12,
+      "options": {
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "Inzidenz 7 Tage"
+          }
+        ]
+      },
+      "pluginVersion": "7.2.1",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT DISTINCT ON (region)\n  region AS \"Bezirk\",\n  inzidenz as \"Inzidenz $inzidenz_days Tage\",\n  inzidenz_increase_daily_percent as \"Täglicher Anstieg %\",\n  anz_faelle as \"Fälle $inzidenz_days Tage\"\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND \n  typ = 'b'\nORDER BY region ASC, date DESC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "inz_faelle_7d"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "inzidenz",
+          "timeColumn": "date",
+          "timeColumnType": "timestamp",
+          "where": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Bezirke",
+      "transformations": [],
+      "type": "table"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 12,
+        "x": 12,
+        "y": 28
+      },
+      "id": 13,
+      "options": {
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": false,
+            "displayName": "inzidenz"
+          }
+        ]
+      },
+      "pluginVersion": "7.2.1",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT DISTINCT ON (metric)\n  region AS metric,\n  inzidenz,\n  inzidenz_increase_daily_percent,\n  anz_faelle                    \nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND \n  typ = 'l'\nORDER BY metric ASC, date DESC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "inz_faelle_7d"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "inzidenz",
+          "timeColumn": "date",
+          "timeColumnType": "timestamp",
+          "where": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Bundesländer",
+      "transformations": [
+        {
+          "id": "seriesToRows",
+          "options": {}
+        }
+      ],
+      "type": "table"
     }
   ],
   "refresh": false,
@@ -595,12 +758,10 @@
           "selected": true,
           "tags": [],
           "text": [
-            "Eisenstadt(Stadt)",
-            "Eisenstadt-Umgebung"
+            "Wien (Bezirk)"
           ],
           "value": [
-            "Eisenstadt(Stadt)",
-            "Eisenstadt-Umgebung"
+            "Wien (Bezirk)"
           ]
         },
         "datasource": "PostgreSQL",
@@ -655,7 +816,7 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "7",
           "value": "7"
         },
@@ -857,5 +1018,5 @@
   "timezone": "",
   "title": "Inzidenz",
   "uid": "c664EFpGk",
-  "version": 7
+  "version": 6
 }

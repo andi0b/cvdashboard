@@ -17,8 +17,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
-  "iteration": 1603832446708,
+  "id": 1,
+  "iteration": 1604583751429,
   "links": [],
   "panels": [
     {
@@ -153,7 +153,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:663",
           "format": "none",
           "label": null,
           "logBase": 1,
@@ -162,7 +161,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:664",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -238,7 +236,6 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "$$hashKey": "object:421",
           "alias": "/.*Täglicher Anstieg Fälle/",
           "yaxis": 2
         }
@@ -319,7 +316,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:403",
           "format": "percent",
           "label": null,
           "logBase": 1,
@@ -328,7 +324,6 @@
           "show": true
         },
         {
-          "$$hashKey": "object:404",
           "format": "none",
           "label": null,
           "logBase": 1,
@@ -486,8 +481,12 @@
         "current": {
           "selected": true,
           "tags": [],
-          "text": [],
-          "value": []
+          "text": [
+            "Wien (Bezirk)"
+          ],
+          "value": [
+            "Wien (Bezirk)"
+          ]
         },
         "datasource": "PostgreSQL",
         "definition": "SELECT DISTINCT bezirk FROM timeline_bezirke",
@@ -512,7 +511,6 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "tags": [],
           "text": [
             "Österreich"
           ],
@@ -636,5 +634,5 @@
   "timezone": "",
   "title": "Fälle",
   "uid": "9778YUpGz",
-  "version": 3
+  "version": 2
 }
