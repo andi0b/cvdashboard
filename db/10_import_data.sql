@@ -41,6 +41,10 @@ copy import_fallzahlen (meldedat, test_gesamt, melde_datum, fz_hosp, fz_icu, fz_
     delimiter ';'
     csv header;
 
+update import_fallzahlen
+set bundesland = 'Österreich'
+where (bundesland = 'Alle');
+
 insert into fallzahlen (date, bundesland, bid, fz_hosp, fz_icu, fz_hosp_free, fz_icu_free)
 select meldedat, bundesland, bundesland_id, fz_hosp, fz_icu, fz_hosp_free, fz_icu_free
 from import_fallzahlen;
