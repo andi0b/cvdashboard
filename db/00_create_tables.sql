@@ -79,7 +79,7 @@ from timeline_laender
 order by date asc, rid asc;
 
 
-drop table bundesland;
+drop table if exists bundesland;
 create table bundesland
 (
     bid        int     not null,
@@ -87,7 +87,7 @@ create table bundesland
     primary key (bid)
 );
 
-drop table bezirk;
+drop table if exists bezirk;
 create table bezirk
 (
     gkz        int     not null,
