@@ -57,7 +57,7 @@ from (
                          sum(anz_faelle) over w_inz                                       as anz_faelle,
                          (sum(anz_faelle) over w_inz)::float / anz_einwohner * per_capita as inzidenz
                   from timeline_full
-                      window w_inz as (partition by region order by date rows between days preceding and 1 preceding)
+                      window w_inz as (partition by region order by date rows days-1 preceding)
               ) inz
              window w_delta as (partition by region order by date)
      ) days_ago,
