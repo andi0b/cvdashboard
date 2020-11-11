@@ -10,9 +10,9 @@ datasources:
     type: postgres
     url: db:5432
     database: postgres
-    user: postgres
+    user: ${GRAFANA_POSTGRES_USER}
     secureJsonData:
-      password: postgres
+      password: ${GRAFANA_POSTGRES_PASSWORD}
     jsonData:
       sslmode: "disable"
       postgresVersion: 1300

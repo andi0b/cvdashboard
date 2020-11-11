@@ -4,6 +4,12 @@ services:
 
   grafana:
     image: grafana/grafana:7.2.1
+    environment:
+      - GRAFANA_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GRAFANA_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+      - GRAFANA_POSTGRES_USER=${GRAFANA_POSTGRES_USER:-postgres}
+      - GRAFANA_POSTGRES_PASSWORD=${GRAFANA_POSTGRES_PASSWORD:-postgres}
+
     ports:
       - "127.0.0.1:3000:3000"
     volumes:
@@ -13,9 +19,23 @@ services:
   db:
     image: postgres:13
     environment:
-      POSTGRES_PASSWORD: postgres
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
     ports:
       - "127.0.0.1:5432:5432"
     volumes:
       - "./data:/data"
       - "./db:/db"
+
+  import-data-service:
+    build:
+      context: import-data-service/
+    
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+
+    volumes:
+      - "./data:/data"
+      - "./db:/db"
+
