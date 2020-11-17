@@ -3,7 +3,7 @@ create or replace function calculate_deltas(value_current float, value_days_ago 
                                             out delta_daily float,
                                             out increase_percent float,
                                             out increase_percent_daily float)
-    language plpgsql
+    language plpgsql immutable
 as
 $$
 declare

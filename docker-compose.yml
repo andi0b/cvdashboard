@@ -17,7 +17,9 @@ services:
       - "./grafana-provisioning/grafana.ini:/etc/grafana/grafana.ini"
 
   db:
-    image: postgres:13
+    build:
+      context: postgres-r/
+    #image: postgres:13
     environment:
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
