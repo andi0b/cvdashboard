@@ -1,0 +1,542 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 4,
+  "iteration": 1605875410389,
+  "links": [],
+  "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 6,
+      "gridPos": {
+        "h": 15,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 2,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 2,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.2.1",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:460",
+          "alias": "hi95",
+          "color": "#F2495C",
+          "fillBelowTo": "hi80",
+          "lines": false
+        },
+        {
+          "$$hashKey": "object:465",
+          "alias": "hi80",
+          "color": "#FF9830",
+          "fillBelowTo": "forecast",
+          "lines": false
+        },
+        {
+          "$$hashKey": "object:476",
+          "alias": "forecast",
+          "color": "#5794F2",
+          "fillBelowTo": "lo80",
+          "lines": false
+        },
+        {
+          "$$hashKey": "object:487",
+          "alias": "lo80",
+          "color": "#B877D9",
+          "fillBelowTo": "lo95",
+          "lines": false
+        },
+        {
+          "$$hashKey": "object:498",
+          "alias": "lo95",
+          "lines": false
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT date as time, value, lo95, lo80, forecast, hi80, hi95\nFROM faelle_prediction('$bundesland', predict_h := $predict_h, remove_values_tail := $remove_values_tail)\nWHERE\n  $__timeFilter(date)\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "inz_faelle_7d"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "timeline_bezirke",
+          "timeColumn": "date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Holt Winters Forecast (add, damped)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:59",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:60",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 26,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "Österreich",
+          "value": "Österreich"
+        },
+        "datasource": "PostgreSQL",
+        "definition": "select bundesland from bundesland",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Region",
+        "multi": false,
+        "name": "bundesland",
+        "options": [],
+        "query": "select bundesland from bundesland",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "1",
+          "value": "1"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "remove_values_tail",
+        "options": [
+          {
+            "selected": false,
+            "text": "0",
+            "value": "0"
+          },
+          {
+            "selected": true,
+            "text": "1",
+            "value": "1"
+          },
+          {
+            "selected": false,
+            "text": "2",
+            "value": "2"
+          },
+          {
+            "selected": false,
+            "text": "3",
+            "value": "3"
+          },
+          {
+            "selected": false,
+            "text": "4",
+            "value": "4"
+          },
+          {
+            "selected": false,
+            "text": "5",
+            "value": "5"
+          },
+          {
+            "selected": false,
+            "text": "6",
+            "value": "6"
+          },
+          {
+            "selected": false,
+            "text": "7",
+            "value": "7"
+          },
+          {
+            "selected": false,
+            "text": "8",
+            "value": "8"
+          },
+          {
+            "selected": false,
+            "text": "9",
+            "value": "9"
+          },
+          {
+            "selected": false,
+            "text": "10",
+            "value": "10"
+          },
+          {
+            "selected": false,
+            "text": "11",
+            "value": "11"
+          },
+          {
+            "selected": false,
+            "text": "12",
+            "value": "12"
+          },
+          {
+            "selected": false,
+            "text": "12",
+            "value": "12"
+          },
+          {
+            "selected": false,
+            "text": "14",
+            "value": "14"
+          },
+          {
+            "selected": false,
+            "text": "15",
+            "value": "15"
+          },
+          {
+            "selected": false,
+            "text": "16",
+            "value": "16"
+          },
+          {
+            "selected": false,
+            "text": "17",
+            "value": "17"
+          },
+          {
+            "selected": false,
+            "text": "18",
+            "value": "18"
+          },
+          {
+            "selected": false,
+            "text": "19",
+            "value": "19"
+          },
+          {
+            "selected": false,
+            "text": "20",
+            "value": "20"
+          },
+          {
+            "selected": false,
+            "text": "21",
+            "value": "21"
+          },
+          {
+            "selected": false,
+            "text": "22",
+            "value": "22"
+          },
+          {
+            "selected": false,
+            "text": "23",
+            "value": "23"
+          },
+          {
+            "selected": false,
+            "text": "24",
+            "value": "24"
+          },
+          {
+            "selected": false,
+            "text": "25",
+            "value": "25"
+          },
+          {
+            "selected": false,
+            "text": "26",
+            "value": "26"
+          },
+          {
+            "selected": false,
+            "text": "27",
+            "value": "27"
+          },
+          {
+            "selected": false,
+            "text": "28",
+            "value": "28"
+          }
+        ],
+        "query": "0,1,2,3,4,5,6,7,8,9,10,11,12,12,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "14",
+          "value": "14"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "predict_h",
+        "options": [
+          {
+            "selected": false,
+            "text": "1",
+            "value": "1"
+          },
+          {
+            "selected": false,
+            "text": "2",
+            "value": "2"
+          },
+          {
+            "selected": false,
+            "text": "3",
+            "value": "3"
+          },
+          {
+            "selected": false,
+            "text": "4",
+            "value": "4"
+          },
+          {
+            "selected": false,
+            "text": "5",
+            "value": "5"
+          },
+          {
+            "selected": false,
+            "text": "6",
+            "value": "6"
+          },
+          {
+            "selected": false,
+            "text": "7",
+            "value": "7"
+          },
+          {
+            "selected": false,
+            "text": "8",
+            "value": "8"
+          },
+          {
+            "selected": false,
+            "text": "9",
+            "value": "9"
+          },
+          {
+            "selected": false,
+            "text": "10",
+            "value": "10"
+          },
+          {
+            "selected": false,
+            "text": "11",
+            "value": "11"
+          },
+          {
+            "selected": false,
+            "text": "12",
+            "value": "12"
+          },
+          {
+            "selected": false,
+            "text": "13",
+            "value": "13"
+          },
+          {
+            "selected": true,
+            "text": "14",
+            "value": "14"
+          },
+          {
+            "selected": false,
+            "text": "15",
+            "value": "15"
+          },
+          {
+            "selected": false,
+            "text": "16",
+            "value": "16"
+          },
+          {
+            "selected": false,
+            "text": "17",
+            "value": "17"
+          },
+          {
+            "selected": false,
+            "text": "18",
+            "value": "18"
+          },
+          {
+            "selected": false,
+            "text": "19",
+            "value": "19"
+          },
+          {
+            "selected": false,
+            "text": "20",
+            "value": "20"
+          },
+          {
+            "selected": false,
+            "text": "21",
+            "value": "21"
+          },
+          {
+            "selected": false,
+            "text": "22",
+            "value": "22"
+          },
+          {
+            "selected": false,
+            "text": "23",
+            "value": "23"
+          },
+          {
+            "selected": false,
+            "text": "24",
+            "value": "24"
+          },
+          {
+            "selected": false,
+            "text": "25",
+            "value": "25"
+          },
+          {
+            "selected": false,
+            "text": "26",
+            "value": "26"
+          },
+          {
+            "selected": false,
+            "text": "27",
+            "value": "27"
+          },
+          {
+            "selected": false,
+            "text": "28",
+            "value": "28"
+          }
+        ],
+        "query": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28",
+        "queryValue": "",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-60d",
+    "to": "now+14d"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Fallzahlen Prognose",
+  "uid": "o6AcbYTMk",
+  "version": 2
+}

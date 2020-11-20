@@ -1,15 +1,27 @@
--- create function plr_call_handler()
---    returns language_handler
--- as '$libdir/plr' language c;
+do
+$$
+    begin
+        if not EXISTS(select * from pg_language where lanname = 'plr') then
 
--- create language plr handler plr_call_handler;
+            -- initialize PLR
+            create function plr_call_handler()
+                returns language_handler
+            as
+            '$libdir/plr' language c;
+
+            create language plr handler plr_call_handler;
+
+        end if;
+    end
+$$;
 
 
 drop function if exists predict(input_dates timestamp[], input_values float[], inputs_frequency float,
     predict_h integer, remove_values_tail integer);
 
+drop function if exists faelle_prediction(region_filter varchar, predict_h integer, remove_values_tail integer)
+
 drop type if exists predict_result;
-drop type if exists predict_input;
 
 create type predict_result as
 (
@@ -68,7 +80,7 @@ $$
 with source as (
     select array_agg(date) as dates, array_agg(anz_faelle::float) as faelle
     from timeline_full
-    where region = 'Österreich'
+    where region = region_filter
 )
 select prediction.*
 from source,
