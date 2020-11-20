@@ -4,13 +4,17 @@
 
 -- create language plr handler plr_call_handler;
 
-drop function if exists predict(vals float[], vals_frequency float, predict_h integer);
-drop function if exists faelle_prediction(region_filter varchar);
-drop type if exists predict_result;
 
+drop function if exists predict(input_dates timestamp[], input_values float[], inputs_frequency float,
+    predict_h integer, remove_values_tail integer);
+
+drop type if exists predict_result;
+drop type if exists predict_input;
 
 create type predict_result as
 (
+    date     timestamp,
+    value    float,
     forecast float,
     lo80     float,
     hi80     float,
@@ -18,55 +22,56 @@ create type predict_result as
     hi95     float
 );
 
-
-create or replace function predict(vals integer[], vals_frequency float default 7, predict_h integer default 14)
+create or replace function predict(input_dates timestamp[], input_values float[], inputs_frequency float default 7,
+                                   predict_h integer default 14,
+                                   remove_values_tail integer default 0)
     returns setof predict_result
     language plr
 as
 $$
 library('forecast')
 
-vals_ts <- ts(vals, frequency = vals_frequency)
+# functions
+date_series <- function(startDate, days) startDate + (0:(days - 1) * 3600 * 24)
+my_forecast <- function(ts, h) hw(ts, h = h, damped = TRUE)
 
-prediction <- hw(vals_ts, h = predict_h, damped = TRUE)
+#### prepare data
+# create dataframe from input arrays
+inputs <- data.frame(date = as.POSIXct(input_dates), value = input_values)
 
-return(data.frame(prediction))
+# subset for prediction; and create ts with defined frequency
+inputs.subset <- head(inputs, n = nrow(inputs) - remove_values_tail)
+inputs.subset.lastdate <- tail(inputs.subset, n = 1)$date
+inputs.subset.ts <- ts(inputs.subset$value, frequency = inputs_frequency)
+
+# do forecast
+forecast.result <- my_forecast(inputs.subset.ts, predict_h)
+forecast.timestamps <- date_series(inputs.subset.lastdate + 3600 * 24, predict_h)
+
+forecast.dataframe <- data.frame(forecast.result)
+forecast.dataframe$date <- forecast.timestamps
+
+# join forecast together with inputs on common column date
+joined <- merge(inputs, forecast.dataframe, on = "date", all = TRUE)
+
+joined$date <- as.character(joined$date)
+
+return(joined)
 $$;
 
-
-create or replace function faelle_prediction(region_filter varchar default 'Österreich')
-    returns table
-            (
-                date       timestamp,
-                anz_faelle integer,
-                forecast   float,
-                hi80       float,
-                hi95       float,
-                lo80       float,
-                lo95       float
-            )
+create or replace function faelle_prediction(region_filter varchar default 'Österreich', predict_h integer default 14,
+                                             remove_values_tail integer default 0)
+    returns setof predict_result
     language sql
 as
 $$
-select *
-from (
-         select COALESCE(y.date, tml.date) as date, anz_faelle, y.forecast, y.hi80, y.hi95, y.lo80, y.lo95
-         from (select date, anz_faelle from timeline_full where region = region_filter) tml
-                  full outer join (
-             select dates.date, prediction.*
-             from (
-                      select row_number() over () as rownum, *
-                      from predict((select array_agg(anz_faelle) from timeline_full where region = region_filter))) prediction
-
-                      inner join (
-                 select row_number() over () as rownum, date
-                 from (
-                          select generate_series(m.max_date + '1 day'::interval,
-                                                 m.max_date + '15 days'::interval,
-                                                 '1 day'::interval) as date
-                          from (select max(date) as max_date from timeline_laender) m) gseries) dates
-
-                                 on dates.rownum = prediction.rownum) y
-                                  on tml.date = y.date) z
-order by z.date
+with source as (
+    select array_agg(date) as dates, array_agg(anz_faelle::float) as faelle
+    from timeline_full
+    where region = 'Österreich'
+)
+select prediction.*
+from source,
+     predict(source.dates, source.faelle,
+             predict_h := predict_h, remove_values_tail := remove_values_tail) prediction
 $$;
