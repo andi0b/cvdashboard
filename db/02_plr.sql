@@ -19,7 +19,7 @@ $$;
 drop function if exists predict(input_dates timestamp[], input_values float[], inputs_frequency float,
     predict_h integer, remove_values_tail integer);
 
-drop function if exists faelle_prediction(region_filter varchar, predict_h integer, remove_values_tail integer)
+drop function if exists faelle_prediction(region_filter varchar, predict_h integer, remove_values_tail integer);
 
 drop type if exists predict_result;
 
