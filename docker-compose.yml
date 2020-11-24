@@ -3,7 +3,7 @@ version: "3.8"
 services:
 
   grafana:
-    image: grafana/grafana:7.2.1
+    image: grafana/grafana:7.3.4
     environment:
       - GRAFANA_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
       - GRAFANA_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
