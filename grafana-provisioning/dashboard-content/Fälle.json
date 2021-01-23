@@ -17,8 +17,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 3,
-  "iteration": 1611424107894,
+  "id": 2,
+  "iteration": 1611441132162,
   "links": [],
   "panels": [
     {
@@ -109,7 +109,7 @@
           "group": [],
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  anz_faelle\nFROM timeline_full\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  anz_faelle\nFROM timeline_full\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}' AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -224,7 +224,7 @@
           "hide": false,
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  faelle_increase_daily_percent\nFROM faelle($delta_days)\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  faelle_increase_daily_percent\nFROM faelle($delta_days)\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}' AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -390,7 +390,7 @@
           "hide": false,
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  faelle_increase_daily_percent\nFROM faelle($delta_days)\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  faelle_increase_daily_percent\nFROM faelle($delta_days)\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}' AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -536,7 +536,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT DISTINCT ON (region)\n  region AS \"Bezirk\",\n  anz_faelle_sum as \"Jemals infizierte Personen\",\n  anz_faelle_sum::float / anz_einwohner::float as \"Jemals infizierte Anteil\"\nFROM timeline_full\nWHERE\n  $__timeFilter(date) AND \n  typ = 'b'\nORDER BY region ASC, date DESC",
+          "rawSql": "SELECT DISTINCT ON (region)\n  region AS \"Bezirk\",\n  anz_faelle_sum as \"Jemals infizierte Personen\",\n  anz_faelle_sum::float / anz_einwohner::float as \"Jemals infizierte Anteil\"\nFROM timeline_full\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}' AND \n  typ = 'b'\nORDER BY region ASC, date DESC",
           "refId": "A",
           "select": [
             [
@@ -640,7 +640,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT * FROM (\n  SELECT DISTINCT ON (region)\n    region AS \"Bundesland\",\n    anz_faelle_sum as \"Jemals infizierte Personen\",\n    anz_faelle_sum::float / anz_einwohner::float as \"Jemals infizierte Anteil\"\n  FROM timeline_full\n  WHERE\n    $__timeFilter(date) AND \n    typ = 'l'\n  ORDER BY region ASC, date DESC\n) x\nORDER BY case when \"Bundesland\" = 'Österreich' then 0 else 1 end",
+          "rawSql": "SELECT * FROM (\n  SELECT DISTINCT ON (region)\n    region AS \"Bundesland\",\n    anz_faelle_sum as \"Jemals infizierte Personen\",\n    anz_faelle_sum::float / anz_einwohner::float as \"Jemals infizierte Anteil\"\n  FROM timeline_full\n  WHERE\n    date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}' AND \n    typ = 'l'\n  ORDER BY region ASC, date DESC\n) x\nORDER BY case when \"Bundesland\" = 'Österreich' then 0 else 1 end",
           "refId": "A",
           "select": [
             [
@@ -680,7 +680,6 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "tags": [],
           "text": [
             "Wien (Bezirk)"
           ],
@@ -706,30 +705,39 @@
         "tagValuesQuery": "select bezirk from bezirk where bundesland = '$tag'",
         "tags": [
           {
+            "selected": false,
             "text": "Burgenland"
           },
           {
+            "selected": false,
             "text": "Kärnten"
           },
           {
+            "selected": false,
             "text": "Niederösterreich"
           },
           {
+            "selected": false,
             "text": "Oberösterreich"
           },
           {
+            "selected": false,
             "text": "Salzburg"
           },
           {
+            "selected": false,
             "text": "Steiermark"
           },
           {
+            "selected": false,
             "text": "Tirol"
           },
           {
+            "selected": false,
             "text": "Vorarlberg"
           },
           {
+            "selected": false,
             "text": "Wien"
           }
         ],
@@ -741,7 +749,6 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "tags": [],
           "text": [
             "Österreich"
           ],
@@ -869,5 +876,5 @@
   "timezone": "",
   "title": "Fälle",
   "uid": "9778YUpGz",
-  "version": 4
+  "version": 2
 }
