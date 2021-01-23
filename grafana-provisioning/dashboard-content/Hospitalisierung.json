@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 3,
-  "iteration": 1604609119974,
+  "iteration": 1611416458459,
   "links": [],
   "panels": [
     {
@@ -34,8 +34,8 @@
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Burgenland",
-          "value": "Burgenland"
+          "text": "Österreich",
+          "value": "Österreich"
         }
       },
       "title": "$bundesland",
@@ -83,15 +83,15 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Burgenland",
-          "value": "Burgenland"
+          "text": "Österreich",
+          "value": "Österreich"
         }
       },
       "seriesOverrides": [
@@ -221,10 +221,324 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
+      "scopedVars": {
+        "bundesland": {
+          "selected": true,
+          "text": "Österreich",
+          "value": "Österreich"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "alias": "Norm Fallzahl",
+          "bars": true,
+          "color": "#B877D9",
+          "lines": false
+        },
+        {
+          "alias": "Norm Kapazität",
+          "color": "#5794F2"
+        },
+        {
+          "alias": "Norm Auslastung %",
+          "fill": 0,
+          "lines": true,
+          "linewidth": 1,
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  date AS \"time\",\n  fz_hosp as \"Norm Fallzahl\",\n  fz_hosp_free + fz_hosp as \"Norm Kapazität\",\n  (fz_hosp::float / (fz_hosp_free + fz_hosp)) * 100 as \"Norm Auslastung %\"\nFROM fallzahlen\nWHERE\n  $__timeFilter(date) AND bundesland = $bundesland\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "inz_faelle_7d"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "timeline_full",
+          "timeColumn": "date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Normalstation",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "decimals": null,
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": "100",
+          "min": "0",
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "id": 24,
+      "panels": [],
+      "repeatIteration": 1611416458459,
+      "repeatPanelId": 4,
+      "scopedVars": {
+        "bundesland": {
+          "selected": true,
+          "text": "Burgenland",
+          "value": "Burgenland"
+        }
+      },
+      "title": "$bundesland",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 11
+      },
+      "hiddenSeries": false,
+      "id": 25,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideEmpty": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 0,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "repeatIteration": 1611416458459,
+      "repeatPanelId": 2,
+      "repeatedByRow": true,
+      "scopedVars": {
+        "bundesland": {
+          "selected": true,
+          "text": "Burgenland",
+          "value": "Burgenland"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "alias": "ICU Fallzahl",
+          "bars": true,
+          "lines": false
+        },
+        {
+          "alias": "ICU Auslastung %",
+          "fill": 0,
+          "linewidth": 1,
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n  date AS \"time\",\n  fz_icu as \"ICU Fallzahl\",\n  fz_icu_free + fz_icu as \"ICU Kapazität\",\n  (fz_icu::float / (fz_icu_free + fz_icu)) * 100 as \"ICU Auslastung %\"\nFROM fallzahlen\nWHERE\n  $__timeFilter(date) AND bundesland = $bundesland\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "inz_faelle_7d"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "timeline_full",
+          "timeColumn": "date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Intensivstation",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "decimals": null,
+          "format": "percent",
+          "label": "",
+          "logBase": 1,
+          "max": "100",
+          "min": "0",
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 11
+      },
+      "hiddenSeries": false,
+      "id": 26,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 0,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.3.4",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "repeatIteration": 1611416458459,
+      "repeatPanelId": 23,
+      "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
@@ -333,331 +647,17 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 10
-      },
-      "id": 24,
-      "panels": [],
-      "repeatIteration": 1604609119974,
-      "repeatPanelId": 4,
-      "scopedVars": {
-        "bundesland": {
-          "selected": true,
-          "text": "Kärnten",
-          "value": "Kärnten"
-        }
-      },
-      "title": "$bundesland",
-      "type": "row"
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 11
-      },
-      "hiddenSeries": false,
-      "id": 25,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": false,
-        "hideEmpty": false,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.2.1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "repeatIteration": 1604609119974,
-      "repeatPanelId": 2,
-      "repeatedByRow": true,
-      "scopedVars": {
-        "bundesland": {
-          "selected": true,
-          "text": "Kärnten",
-          "value": "Kärnten"
-        }
-      },
-      "seriesOverrides": [
-        {
-          "alias": "ICU Fallzahl",
-          "bars": true,
-          "lines": false
-        },
-        {
-          "alias": "ICU Auslastung %",
-          "fill": 0,
-          "linewidth": 1,
-          "yaxis": 2
-        }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "format": "time_series",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  fz_icu as \"ICU Fallzahl\",\n  fz_icu_free + fz_icu as \"ICU Kapazität\",\n  (fz_icu::float / (fz_icu_free + fz_icu)) * 100 as \"ICU Auslastung %\"\nFROM fallzahlen\nWHERE\n  $__timeFilter(date) AND bundesland = $bundesland\nORDER BY 1",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "inz_faelle_7d"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "timeline_full",
-          "timeColumn": "date",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Intensivstation",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "none",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "decimals": null,
-          "format": "none",
-          "label": "",
-          "logBase": 1,
-          "max": "100",
-          "min": "0",
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "description": "",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 12,
-        "y": 11
-      },
-      "hiddenSeries": false,
-      "id": 26,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 0,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.2.1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "repeatIteration": 1604609119974,
-      "repeatPanelId": 23,
-      "repeatedByRow": true,
-      "scopedVars": {
-        "bundesland": {
-          "selected": true,
-          "text": "Kärnten",
-          "value": "Kärnten"
-        }
-      },
-      "seriesOverrides": [
-        {
-          "alias": "Norm Fallzahl",
-          "bars": true,
-          "color": "#B877D9",
-          "lines": false
-        },
-        {
-          "alias": "Norm Kapazität",
-          "color": "#5794F2"
-        },
-        {
-          "alias": "Norm Auslastung %",
-          "fill": 0,
-          "lines": true,
-          "linewidth": 1,
-          "yaxis": 2
-        }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "format": "time_series",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  fz_hosp as \"Norm Fallzahl\",\n  fz_hosp_free + fz_hosp as \"Norm Kapazität\",\n  (fz_hosp::float / (fz_hosp_free + fz_hosp)) * 100 as \"Norm Auslastung %\"\nFROM fallzahlen\nWHERE\n  $__timeFilter(date) AND bundesland = $bundesland\nORDER BY 1",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "inz_faelle_7d"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "timeline_full",
-          "timeColumn": "date",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Normalstation",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "decimals": null,
-          "format": "percent",
-          "label": null,
-          "logBase": 1,
-          "max": "100",
-          "min": "0",
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "collapsed": false,
-      "datasource": null,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
         "y": 20
       },
       "id": 27,
       "panels": [],
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 4,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Niederösterreich",
-          "value": "Niederösterreich"
+          "text": "Kärnten",
+          "value": "Kärnten"
         }
       },
       "title": "$bundesland",
@@ -705,18 +705,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 2,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Niederösterreich",
-          "value": "Niederösterreich"
+          "text": "Kärnten",
+          "value": "Kärnten"
         }
       },
       "seriesOverrides": [
@@ -785,7 +785,7 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -794,7 +794,7 @@
         },
         {
           "decimals": null,
-          "format": "none",
+          "format": "percent",
           "label": "",
           "logBase": 1,
           "max": "100",
@@ -846,18 +846,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 23,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Niederösterreich",
-          "value": "Niederösterreich"
+          "text": "Kärnten",
+          "value": "Kärnten"
         }
       },
       "seriesOverrides": [
@@ -965,13 +965,13 @@
       },
       "id": 30,
       "panels": [],
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 4,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Oberösterreich",
-          "value": "Oberösterreich"
+          "text": "Niederösterreich",
+          "value": "Niederösterreich"
         }
       },
       "title": "$bundesland",
@@ -1019,18 +1019,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 2,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Oberösterreich",
-          "value": "Oberösterreich"
+          "text": "Niederösterreich",
+          "value": "Niederösterreich"
         }
       },
       "seriesOverrides": [
@@ -1099,7 +1099,7 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -1108,7 +1108,7 @@
         },
         {
           "decimals": null,
-          "format": "none",
+          "format": "percent",
           "label": "",
           "logBase": 1,
           "max": "100",
@@ -1160,18 +1160,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 23,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Oberösterreich",
-          "value": "Oberösterreich"
+          "text": "Niederösterreich",
+          "value": "Niederösterreich"
         }
       },
       "seriesOverrides": [
@@ -1279,13 +1279,13 @@
       },
       "id": 33,
       "panels": [],
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 4,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Salzburg",
-          "value": "Salzburg"
+          "text": "Oberösterreich",
+          "value": "Oberösterreich"
         }
       },
       "title": "$bundesland",
@@ -1300,8 +1300,7 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {},
-          "unit": "none"
+          "custom": {}
         },
         "overrides": []
       },
@@ -1334,18 +1333,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 2,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Salzburg",
-          "value": "Salzburg"
+          "text": "Oberösterreich",
+          "value": "Oberösterreich"
         }
       },
       "seriesOverrides": [
@@ -1414,7 +1413,7 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -1423,7 +1422,7 @@
         },
         {
           "decimals": null,
-          "format": "none",
+          "format": "percent",
           "label": "",
           "logBase": 1,
           "max": "100",
@@ -1475,18 +1474,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 23,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Salzburg",
-          "value": "Salzburg"
+          "text": "Oberösterreich",
+          "value": "Oberösterreich"
         }
       },
       "seriesOverrides": [
@@ -1594,13 +1593,13 @@
       },
       "id": 36,
       "panels": [],
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 4,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Steiermark",
-          "value": "Steiermark"
+          "text": "Salzburg",
+          "value": "Salzburg"
         }
       },
       "title": "$bundesland",
@@ -1648,18 +1647,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 2,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Steiermark",
-          "value": "Steiermark"
+          "text": "Salzburg",
+          "value": "Salzburg"
         }
       },
       "seriesOverrides": [
@@ -1728,7 +1727,7 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -1737,7 +1736,7 @@
         },
         {
           "decimals": null,
-          "format": "none",
+          "format": "percent",
           "label": "",
           "logBase": 1,
           "max": "100",
@@ -1789,18 +1788,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 23,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Steiermark",
-          "value": "Steiermark"
+          "text": "Salzburg",
+          "value": "Salzburg"
         }
       },
       "seriesOverrides": [
@@ -1908,13 +1907,13 @@
       },
       "id": 39,
       "panels": [],
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 4,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Tirol",
-          "value": "Tirol"
+          "text": "Steiermark",
+          "value": "Steiermark"
         }
       },
       "title": "$bundesland",
@@ -1962,18 +1961,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 2,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Tirol",
-          "value": "Tirol"
+          "text": "Steiermark",
+          "value": "Steiermark"
         }
       },
       "seriesOverrides": [
@@ -2042,7 +2041,7 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -2051,7 +2050,7 @@
         },
         {
           "decimals": null,
-          "format": "none",
+          "format": "percent",
           "label": "",
           "logBase": 1,
           "max": "100",
@@ -2103,18 +2102,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 23,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Tirol",
-          "value": "Tirol"
+          "text": "Steiermark",
+          "value": "Steiermark"
         }
       },
       "seriesOverrides": [
@@ -2222,13 +2221,13 @@
       },
       "id": 42,
       "panels": [],
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 4,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Vorarlberg",
-          "value": "Vorarlberg"
+          "text": "Tirol",
+          "value": "Tirol"
         }
       },
       "title": "$bundesland",
@@ -2276,18 +2275,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 2,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Vorarlberg",
-          "value": "Vorarlberg"
+          "text": "Tirol",
+          "value": "Tirol"
         }
       },
       "seriesOverrides": [
@@ -2356,7 +2355,7 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -2365,7 +2364,7 @@
         },
         {
           "decimals": null,
-          "format": "none",
+          "format": "percent",
           "label": "",
           "logBase": 1,
           "max": "100",
@@ -2417,18 +2416,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 23,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Vorarlberg",
-          "value": "Vorarlberg"
+          "text": "Tirol",
+          "value": "Tirol"
         }
       },
       "seriesOverrides": [
@@ -2536,13 +2535,13 @@
       },
       "id": 45,
       "panels": [],
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 4,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Wien",
-          "value": "Wien"
+          "text": "Vorarlberg",
+          "value": "Vorarlberg"
         }
       },
       "title": "$bundesland",
@@ -2590,18 +2589,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 2,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Wien",
-          "value": "Wien"
+          "text": "Vorarlberg",
+          "value": "Vorarlberg"
         }
       },
       "seriesOverrides": [
@@ -2670,7 +2669,7 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -2679,7 +2678,7 @@
         },
         {
           "decimals": null,
-          "format": "none",
+          "format": "percent",
           "label": "",
           "logBase": 1,
           "max": "100",
@@ -2731,18 +2730,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 23,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Wien",
-          "value": "Wien"
+          "text": "Vorarlberg",
+          "value": "Vorarlberg"
         }
       },
       "seriesOverrides": [
@@ -2850,13 +2849,13 @@
       },
       "id": 48,
       "panels": [],
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 4,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Österreich",
-          "value": "Österreich"
+          "text": "Wien",
+          "value": "Wien"
         }
       },
       "title": "$bundesland",
@@ -2904,18 +2903,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 2,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Österreich",
-          "value": "Österreich"
+          "text": "Wien",
+          "value": "Wien"
         }
       },
       "seriesOverrides": [
@@ -2984,7 +2983,7 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "format": "short",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -2993,7 +2992,7 @@
         },
         {
           "decimals": null,
-          "format": "none",
+          "format": "percent",
           "label": "",
           "logBase": 1,
           "max": "100",
@@ -3045,18 +3044,18 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1604609119974,
+      "repeatIteration": 1611416458459,
       "repeatPanelId": 23,
       "repeatedByRow": true,
       "scopedVars": {
         "bundesland": {
           "selected": true,
-          "text": "Österreich",
-          "value": "Österreich"
+          "text": "Wien",
+          "value": "Wien"
         }
       },
       "seriesOverrides": [
@@ -3165,6 +3164,7 @@
         "current": {
           "selected": true,
           "text": [
+            "Österreich",
             "Burgenland",
             "Kärnten",
             "Niederösterreich",
@@ -3173,10 +3173,10 @@
             "Steiermark",
             "Tirol",
             "Vorarlberg",
-            "Wien",
-            "Österreich"
+            "Wien"
           ],
           "value": [
+            "Österreich",
             "Burgenland",
             "Kärnten",
             "Niederösterreich",
@@ -3185,71 +3185,20 @@
             "Steiermark",
             "Tirol",
             "Vorarlberg",
-            "Wien",
-            "Österreich"
+            "Wien"
           ]
         },
         "datasource": "PostgreSQL",
         "definition": "select bundesland from bundesland ",
+        "error": null,
         "hide": 2,
         "includeAll": false,
         "label": "Bundesland",
         "multi": true,
         "name": "bundesland",
-        "options": [
-          {
-            "selected": true,
-            "text": "Burgenland",
-            "value": "Burgenland"
-          },
-          {
-            "selected": true,
-            "text": "Kärnten",
-            "value": "Kärnten"
-          },
-          {
-            "selected": true,
-            "text": "Niederösterreich",
-            "value": "Niederösterreich"
-          },
-          {
-            "selected": true,
-            "text": "Oberösterreich",
-            "value": "Oberösterreich"
-          },
-          {
-            "selected": true,
-            "text": "Salzburg",
-            "value": "Salzburg"
-          },
-          {
-            "selected": true,
-            "text": "Steiermark",
-            "value": "Steiermark"
-          },
-          {
-            "selected": true,
-            "text": "Tirol",
-            "value": "Tirol"
-          },
-          {
-            "selected": true,
-            "text": "Vorarlberg",
-            "value": "Vorarlberg"
-          },
-          {
-            "selected": true,
-            "text": "Wien",
-            "value": "Wien"
-          },
-          {
-            "selected": true,
-            "text": "Österreich",
-            "value": "Österreich"
-          }
-        ],
+        "options": [],
         "query": "select bundesland from bundesland ",
-        "refresh": 0,
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
@@ -3269,5 +3218,5 @@
   "timezone": "",
   "title": "Hospitalisierung",
   "uid": "aXA0yo2Gz",
-  "version": 9
+  "version": 2
 }

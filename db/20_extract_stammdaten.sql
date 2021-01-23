@@ -1,9 +1,18 @@
 begin;
 
 insert into bundesland
-select distinct(bid) bid, bundesland
-from timeline_laender
-order by bid;
+select *
+from (
+         select distinct (bid) bid, bundesland
+         from timeline_laender
+    ) x
+order by case
+             when bid = 10
+                 then 0
+             else 1
+             end,
+         bundesland;
+
 
 insert into bezirk
 select distinct(gkz) gkz, bezirk, b.bid, b.bundesland
