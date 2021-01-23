@@ -18,7 +18,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 3,
-  "iteration": 1611424107890,
+  "iteration": 1611424107894,
   "links": [],
   "panels": [
     {
@@ -681,8 +681,12 @@
         "current": {
           "selected": true,
           "tags": [],
-          "text": [],
-          "value": []
+          "text": [
+            "Wien (Bezirk)"
+          ],
+          "value": [
+            "Wien (Bezirk)"
+          ]
         },
         "datasource": "PostgreSQL",
         "definition": "select bezirk from bezirk",
@@ -738,8 +742,12 @@
         "current": {
           "selected": true,
           "tags": [],
-          "text": [],
-          "value": []
+          "text": [
+            "Österreich"
+          ],
+          "value": [
+            "Österreich"
+          ]
         },
         "datasource": "PostgreSQL",
         "definition": "select bundesland from bundesland",
@@ -861,5 +869,5 @@
   "timezone": "",
   "title": "Fälle",
   "uid": "9778YUpGz",
-  "version": 2
+  "version": 4
 }
