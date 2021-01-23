@@ -8,7 +8,7 @@ datasources:
   - name: PostgreSQL
     isDefault: true
     type: postgres
-    url: db:5432
+    url: pgpool:5432
     database: postgres
     user: ${GRAFANA_POSTGRES_USER}
     secureJsonData:

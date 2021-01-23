@@ -38,7 +38,7 @@ create or replace function predict(input_dates timestamp[], input_values float[]
                                    predict_h integer default 14,
                                    remove_values_tail integer default 0)
     returns setof predict_result
-    language plr
+    language plr stable
 as
 $$
 library('forecast')
@@ -74,7 +74,7 @@ $$;
 create or replace function faelle_prediction(region_filter varchar default 'Österreich', predict_h integer default 14,
                                              remove_values_tail integer default 0)
     returns setof predict_result
-    language sql
+    language sql stable
 as
 $$
 with source as (

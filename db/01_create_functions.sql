@@ -43,7 +43,7 @@ create or replace function inzidenz(days int default 7, per_capita int default 1
                 inzidenz_increase_percent       float,
                 inzidenz_increase_daily_percent float
             )
-    language sql
+    language sql stable
 as
 $$
 select date, region, rid, typ, anz_faelle, inzidenz, deltas.*
@@ -77,7 +77,7 @@ create or replace function faelle(delta_days int default 5)
                 faelle_increase_percent       float,
                 faelle_increase_daily_percent float
             )
-    language sql
+    language sql stable
 as
 $$
 select date, region, rid, typ, deltas.*
