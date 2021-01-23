@@ -31,8 +31,8 @@ services:
 
   pgpool:
     image: bitnami/pgpool:4
-#    ports:
-#      - 5432:5432
+    ports:
+      - 5433:5432
     environment:
       - PGPOOL_BACKEND_NODES=0:db:5432
       - PGPOOL_ENABLE_LDAP=no
@@ -44,7 +44,7 @@ services:
       - PGPOOL_ADMIN_PASSWORD=${POSTGRES_PASSWORD:-postgres}
       - PGPOOL_USER_CONF_FILE=/config/pgpool.conf
     volumes:
-      - /pgpool.conf:/config/pgpool.conf
+      - "./pgpool.conf:/config/pgpool.conf"
 
   import-data-service:
     build:
