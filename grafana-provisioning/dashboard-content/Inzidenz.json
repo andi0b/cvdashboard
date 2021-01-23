@@ -17,8 +17,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 2,
-  "iteration": 1604585491773,
+  "id": 4,
+  "iteration": 1611418006433,
   "links": [],
   "panels": [
     {
@@ -85,7 +85,7 @@
         "alertThreshold": false
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -247,7 +247,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "targets": [
         {
           "format": "time_series",
@@ -312,7 +312,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "description": "Tägliche Veränderung 7 Tage Inzidenz (über $deltaaverage Tage)",
+      "description": "",
       "fieldConfig": {
         "defaults": {
           "custom": {},
@@ -348,7 +348,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -412,7 +412,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Tägliche Veränderung Inzidenz ($delta_days Tage Durchschnitt)",
+      "title": "Tägliche Veränderung ($delta_days Tage Durchschnitt)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -509,7 +509,7 @@
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "targets": [
         {
           "format": "time_series",
@@ -578,7 +578,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Tägliche Veränderung $inzidenz_days Tage Inzidenz (letzte $delta_days Tage)",
+      "title": "Tägliche Veränderung (letzte $delta_days Tage)",
       "transformations": [],
       "type": "gauge"
     },
@@ -619,7 +619,20 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Inzidenz 7 Tage"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": null
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 13,
@@ -630,14 +643,9 @@
       "id": 12,
       "options": {
         "showHeader": true,
-        "sortBy": [
-          {
-            "desc": false,
-            "displayName": "Inzidenz 7 Tage"
-          }
-        ]
+        "sortBy": []
       },
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "targets": [
         {
           "format": "table",
@@ -709,14 +717,14 @@
           }
         ]
       },
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.3.4",
       "targets": [
         {
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT DISTINCT ON (region)\n  region AS \"Bundesland\",\n  inzidenz as \"Inzidenz $inzidenz_days Tage\",\n  inzidenz_increase_daily_percent as \"Täglicher Anstieg %\",\n  anz_faelle as \"Fälle $inzidenz_days Tage\"\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND \n  typ = 'l'\nORDER BY region ASC, date DESC",
+          "rawSql": "SELECT * FROM (\n  SELECT DISTINCT ON (region)\n    region AS \"Bundesland\",\n    inzidenz as \"Inzidenz $inzidenz_days Tage\",\n    inzidenz_increase_daily_percent as \"Täglicher Anstieg %\",\n    anz_faelle as \"Fälle $inzidenz_days Tage\"\n  FROM inzidenz($inzidenz_days, $per_capita, $delta_days)\n  WHERE\n    $__timeFilter(date) AND \n    typ = 'l'\n  ORDER BY region ASC, date DESC\n) x\nORDER BY case when \"Bundesland\" = 'Österreich' then 0 else 1 end",
           "refId": "A",
           "select": [
             [
@@ -756,7 +764,6 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "tags": [],
           "text": [
             "Wien (Bezirk)"
           ],
@@ -766,6 +773,7 @@
         },
         "datasource": "PostgreSQL",
         "definition": "select bezirk from bezirk",
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Bezirk",
@@ -780,34 +788,44 @@
         "tagValuesQuery": "select bezirk from bezirk where bundesland = '$tag'",
         "tags": [
           {
+            "selected": false,
+            "text": "Österreich"
+          },
+          {
+            "selected": false,
             "text": "Burgenland"
           },
           {
+            "selected": false,
             "text": "Kärnten"
           },
           {
+            "selected": false,
             "text": "Niederösterreich"
           },
           {
+            "selected": false,
             "text": "Oberösterreich"
           },
           {
+            "selected": false,
             "text": "Salzburg"
           },
           {
+            "selected": false,
             "text": "Steiermark"
           },
           {
+            "selected": false,
             "text": "Tirol"
           },
           {
+            "selected": false,
             "text": "Vorarlberg"
           },
           {
+            "selected": false,
             "text": "Wien"
-          },
-          {
-            "text": "Österreich"
           }
         ],
         "tagsQuery": "select bundesland from bundesland",
@@ -827,6 +845,7 @@
         },
         "datasource": "PostgreSQL",
         "definition": "select bundesland from bundesland",
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Bundesland",
@@ -847,10 +866,11 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "7",
           "value": "7"
         },
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Inzidenz Tage",
@@ -925,6 +945,7 @@
           "text": "100000",
           "value": "100000"
         },
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Per capita",
@@ -959,6 +980,7 @@
           "text": "5",
           "value": "5"
         },
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Veränderung Glättung Tage",
@@ -1049,5 +1071,5 @@
   "timezone": "",
   "title": "Inzidenz",
   "uid": "c664EFpGk",
-  "version": 3
+  "version": 2
 }

@@ -17,8 +17,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
-  "iteration": 1604585028070,
+  "id": 3,
+  "iteration": 1611424107890,
   "links": [],
   "panels": [
     {
@@ -32,67 +32,77 @@
       },
       "id": 10,
       "panels": [],
-      "title": "7 Tage Inzidenz",
+      "title": "Anzahl der Fälle",
       "type": "row"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": null,
-      "decimals": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "Eisenstadt(Stadt)"
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 50,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "graph": false,
+              "legend": false,
+              "tooltip": false
             },
-            "properties": []
-          }
-        ]
+            "lineInterpolation": "smooth",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 2,
+            "pointSize": 6,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "mappings": [],
+          "nullValueMode": "null",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "locale"
+        },
+        "overrides": []
       },
-      "fill": 1,
-      "fillGradient": 5,
       "gridPos": {
         "h": 13,
         "w": 24,
         "x": 0,
         "y": 1
       },
-      "hiddenSeries": false,
       "id": 2,
-      "legend": {
-        "alignAsTable": false,
-        "avg": false,
-        "current": false,
-        "hideEmpty": false,
-        "hideZero": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 2,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": false
+        "graph": {},
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltipOptions": {
+          "mode": "multi"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "7.2.1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": true,
+      "pluginVersion": "7.4.0-beta1",
       "targets": [
         {
           "format": "time_series",
@@ -133,46 +143,10 @@
           ]
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Anzahl der Fälle pro Tag",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "none",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "type": "timeseries"
     },
     {
       "collapsed": false,
@@ -185,7 +159,7 @@
       },
       "id": 8,
       "panels": [],
-      "title": "Veränderung 7 Tage Inzidenz",
+      "title": "Veränderung der Fälle",
       "type": "row"
     },
     {
@@ -230,7 +204,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.4.0-beta1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -299,7 +273,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Tägliche Veränderung der Fälle (letzte $delta_days Tage verglichen mit vorletzten $delta_days Tage)",
+      "title": "Tägliche Veränderung der Fälle (letzte $delta_days Tage verglichen mit vorletzten $delta_days Tagen)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -341,6 +315,9 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
           "custom": {},
           "mappings": [],
           "max": -25,
@@ -394,9 +371,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "7.2.1",
+      "pluginVersion": "7.4.0-beta1",
       "targets": [
         {
           "format": "time_series",
@@ -468,10 +446,232 @@
       "title": "",
       "transformations": [],
       "type": "gauge"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 27
+      },
+      "id": 12,
+      "panels": [],
+      "title": "Tabellen",
+      "type": "row"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Jemals infizierte Anteil"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Jemals infizierte Personen"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "locale"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 0,
+        "y": 28
+      },
+      "id": 14,
+      "options": {
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "7.4.0-beta1",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT DISTINCT ON (region)\n  region AS \"Bezirk\",\n  anz_faelle_sum as \"Jemals infizierte Personen\",\n  anz_faelle_sum::float / anz_einwohner::float as \"Jemals infizierte Anteil\"\nFROM timeline_full\nWHERE\n  $__timeFilter(date) AND \n  typ = 'b'\nORDER BY region ASC, date DESC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "inz_faelle_7d"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "timeline_bezirke",
+          "timeColumn": "date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Bezirke",
+      "type": "table"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Jemals infizierte Anteil"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percentunit"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Jemals infizierte Personen"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "locale"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 12,
+        "y": 28
+      },
+      "id": 15,
+      "options": {
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "7.4.0-beta1",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT * FROM (\n  SELECT DISTINCT ON (region)\n    region AS \"Bundesland\",\n    anz_faelle_sum as \"Jemals infizierte Personen\",\n    anz_faelle_sum::float / anz_einwohner::float as \"Jemals infizierte Anteil\"\n  FROM timeline_full\n  WHERE\n    $__timeFilter(date) AND \n    typ = 'l'\n  ORDER BY region ASC, date DESC\n) x\nORDER BY case when \"Bundesland\" = 'Österreich' then 0 else 1 end",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "inz_faelle_7d"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "timeline_bezirke",
+          "timeColumn": "date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Bundesländer",
+      "type": "table"
     }
   ],
   "refresh": false,
-  "schemaVersion": 26,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -481,15 +681,13 @@
         "current": {
           "selected": true,
           "tags": [],
-          "text": [
-            "Wien (Bezirk)"
-          ],
-          "value": [
-            "Wien (Bezirk)"
-          ]
+          "text": [],
+          "value": []
         },
         "datasource": "PostgreSQL",
         "definition": "select bezirk from bezirk",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Bezirk",
@@ -540,15 +738,13 @@
         "current": {
           "selected": true,
           "tags": [],
-          "text": [
-            "Österreich"
-          ],
-          "value": [
-            "Österreich"
-          ]
+          "text": [],
+          "value": []
         },
         "datasource": "PostgreSQL",
         "definition": "select bundesland from bundesland",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Bundesland",
@@ -569,10 +765,12 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "7",
           "value": "7"
         },
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Veränderung Glättung Tage",
@@ -663,5 +861,5 @@
   "timezone": "",
   "title": "Fälle",
   "uid": "9778YUpGz",
-  "version": 4
+  "version": 2
 }
