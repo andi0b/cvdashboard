@@ -18,7 +18,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 4,
-  "iteration": 1611418006433,
+  "iteration": 1611440967641,
   "links": [],
   "panels": [
     {
@@ -85,7 +85,7 @@
         "alertThreshold": false
       },
       "percentage": false,
-      "pluginVersion": "7.3.4",
+      "pluginVersion": "7.4.0-beta1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -99,7 +99,7 @@
           "group": [],
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}' AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -179,6 +179,9 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
           "custom": {},
           "mappings": [
             {
@@ -245,16 +248,17 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "7.3.4",
+      "pluginVersion": "7.4.0-beta1",
       "targets": [
         {
           "format": "time_series",
           "group": [],
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawSql": "SELECT \n  date AS \"time\",\n  region AS metric,\n  inzidenz\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}' AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -348,7 +352,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.3.4",
+      "pluginVersion": "7.4.0-beta1",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -363,7 +367,7 @@
           "hide": false,
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz_increase_daily_percent\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz_increase_daily_percent\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}'  AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -454,6 +458,9 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
           "custom": {},
           "mappings": [],
           "max": -25,
@@ -507,9 +514,10 @@
           "values": false
         },
         "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "pluginVersion": "7.3.4",
+      "pluginVersion": "7.4.0-beta1",
       "targets": [
         {
           "format": "time_series",
@@ -525,7 +533,7 @@
           "hide": false,
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz_increase_daily_percent\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz_increase_daily_percent\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}'  AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -600,6 +608,9 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
           "custom": {
             "align": null,
             "filterable": false
@@ -645,14 +656,14 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.3.4",
+      "pluginVersion": "7.4.0-beta1",
       "targets": [
         {
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT DISTINCT ON (region)\n  region AS \"Bezirk\",\n  inzidenz as \"Inzidenz $inzidenz_days Tage\",\n  inzidenz_increase_daily_percent as \"Täglicher Anstieg %\",\n  anz_faelle as \"Fälle $inzidenz_days Tage\"\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  $__timeFilter(date) AND \n  typ = 'b'\nORDER BY region ASC, date DESC",
+          "rawSql": "SELECT DISTINCT ON (region)\n  region AS \"Bezirk\",\n  inzidenz as \"Inzidenz $inzidenz_days Tage\",\n  inzidenz_increase_daily_percent as \"Täglicher Anstieg %\",\n  anz_faelle as \"Fälle $inzidenz_days Tage\"\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}'  AND \n  typ = 'b'\nORDER BY region ASC, date DESC",
           "refId": "A",
           "select": [
             [
@@ -680,6 +691,9 @@
       "datasource": null,
       "fieldConfig": {
         "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
           "custom": {
             "align": null,
             "filterable": false
@@ -717,14 +731,14 @@
           }
         ]
       },
-      "pluginVersion": "7.3.4",
+      "pluginVersion": "7.4.0-beta1",
       "targets": [
         {
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT * FROM (\n  SELECT DISTINCT ON (region)\n    region AS \"Bundesland\",\n    inzidenz as \"Inzidenz $inzidenz_days Tage\",\n    inzidenz_increase_daily_percent as \"Täglicher Anstieg %\",\n    anz_faelle as \"Fälle $inzidenz_days Tage\"\n  FROM inzidenz($inzidenz_days, $per_capita, $delta_days)\n  WHERE\n    $__timeFilter(date) AND \n    typ = 'l'\n  ORDER BY region ASC, date DESC\n) x\nORDER BY case when \"Bundesland\" = 'Österreich' then 0 else 1 end",
+          "rawSql": "SELECT * FROM (\n  SELECT DISTINCT ON (region)\n    region AS \"Bundesland\",\n    inzidenz as \"Inzidenz $inzidenz_days Tage\",\n    inzidenz_increase_daily_percent as \"Täglicher Anstieg %\",\n    anz_faelle as \"Fälle $inzidenz_days Tage\"\n  FROM inzidenz($inzidenz_days, $per_capita, $delta_days)\n  WHERE\n    date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}'  AND \n    typ = 'l'\n  ORDER BY region ASC, date DESC\n) x\nORDER BY case when \"Bundesland\" = 'Österreich' then 0 else 1 end",
           "refId": "A",
           "select": [
             [
@@ -755,7 +769,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 26,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -773,6 +787,7 @@
         },
         "datasource": "PostgreSQL",
         "definition": "select bezirk from bezirk",
+        "description": null,
         "error": null,
         "hide": 0,
         "includeAll": false,
@@ -845,6 +860,7 @@
         },
         "datasource": "PostgreSQL",
         "definition": "select bundesland from bundesland",
+        "description": null,
         "error": null,
         "hide": 0,
         "includeAll": false,
@@ -870,6 +886,7 @@
           "text": "7",
           "value": "7"
         },
+        "description": null,
         "error": null,
         "hide": 0,
         "includeAll": false,
@@ -945,6 +962,7 @@
           "text": "100000",
           "value": "100000"
         },
+        "description": null,
         "error": null,
         "hide": 0,
         "includeAll": false,
@@ -980,6 +998,7 @@
           "text": "5",
           "value": "5"
         },
+        "description": null,
         "error": null,
         "hide": 0,
         "includeAll": false,
