@@ -18,7 +18,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 4,
-  "iteration": 1611440967641,
+  "iteration": 1611443186490,
   "links": [],
   "panels": [
     {
@@ -638,8 +638,40 @@
             },
             "properties": [
               {
-                "id": "custom.width",
-                "value": null
+                "id": "unit",
+                "value": "locale"
+              },
+              {
+                "id": "decimals",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Täglicher Anstieg %"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "decimals",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Fälle 7 Tage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "locale"
               }
             ]
           }
@@ -713,7 +745,52 @@
             ]
           }
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Inzidenz 7 Tage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "locale"
+              },
+              {
+                "id": "decimals",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Täglicher Anstieg %"
+            },
+            "properties": [
+              {
+                "id": "decimals",
+                "value": 1
+              },
+              {
+                "id": "unit",
+                "value": "percent"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Fälle 7 Tage"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "locale"
+              }
+            ]
+          }
+        ]
       },
       "gridPos": {
         "h": 13,
@@ -1090,5 +1167,5 @@
   "timezone": "",
   "title": "Inzidenz",
   "uid": "c664EFpGk",
-  "version": 2
+  "version": 4
 }

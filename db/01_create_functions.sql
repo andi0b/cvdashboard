@@ -65,7 +65,7 @@ from (
 $$;
 
 drop function if exists faelle(delta_days int);
-create or replace function faelle(delta_days int default 5)
+create or replace function faelle(delta_days int, rids int[])
     returns table
             (
                 date                          timestamp,
@@ -77,7 +77,8 @@ create or replace function faelle(delta_days int default 5)
                 faelle_increase_percent       float,
                 faelle_increase_daily_percent float
             )
-    language sql stable
+    language sql
+    stable
 as
 $$
 select date, region, rid, typ, deltas.*
@@ -86,7 +87,46 @@ from (
                 avg(anz_faelle) over w_current_period  as faelle_current_period,
                 avg(anz_faelle) over w_previous_period as faelle_previous_period
          from timeline_full
+         where rid = any (rids)
              window w_current_period as (partition by region order by date rows delta_days - 1 preceding),
                  w_previous_period as (partition by region order by date rows between delta_days * 2 - 1 preceding and delta_days preceding)) a,
-    calculate_deltas(faelle_current_period, faelle_previous_period, delta_days) deltas
+     calculate_deltas(faelle_current_period, faelle_previous_period, delta_days) deltas
 $$;
+
+
+-- functions to resolve JSON arrays of bezirk/bundesland to rids
+
+drop function if exists get_rids_for_bundesland(p_bundesland varchar);
+create or replace function get_rids_for_bundesland(p_bundesland varchar)
+    returns int[]
+    language sql
+    stable
+as
+$$
+select array_agg(bid)
+from bundesland
+where bundesland in (select * from json_array_elements_text(p_bundesland::json))
+$$;
+
+drop function if exists get_rids_for_bezirk(p_bezirk varchar);
+create or replace function get_rids_for_bezirk(p_bezirk varchar)
+    returns int[]
+    language sql
+    stable
+as
+$$
+select array_agg(gkz)
+from bezirk
+where bezirk in (select * from json_array_elements_text(p_bezirk::json))
+$$;
+
+drop function if exists get_rids(bundesland varchar, bezirk varchar);
+create or replace function get_rids(bundesland varchar, bezirk varchar)
+    returns int[]
+    language sql
+    stable
+as
+$$
+select (get_rids_for_bundesland(bundesland) || get_rids_for_bezirk(bezirk))
+$$;
+
