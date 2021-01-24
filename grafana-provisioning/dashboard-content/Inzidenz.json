@@ -18,7 +18,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 4,
-  "iteration": 1611443186490,
+  "iteration": 1611486624790,
   "links": [],
   "panels": [
     {
@@ -99,7 +99,7 @@
           "group": [],
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}' AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days, get_rids('${bundesland:json}', '${bezirk:json}'))\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}' \nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -258,7 +258,7 @@
           "group": [],
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT \n  date AS \"time\",\n  region AS metric,\n  inzidenz\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}' AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawSql": "SELECT \n  date AS \"time\",\n  region AS metric,\n  inzidenz\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days, get_rids('${bundesland:json}', '${bezirk:json}'))\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}' \nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -367,7 +367,7 @@
           "hide": false,
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz_increase_daily_percent\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}'  AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz_increase_daily_percent\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days, get_rids('${bundesland:json}', '${bezirk:json}'))\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}'\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -533,7 +533,7 @@
           "hide": false,
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz_increase_daily_percent\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days)\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}'  AND\n  (region IN (SELECT * FROM json_array_elements_text('${bezirk:json}')) OR region IN (SELECT * FROM json_array_elements_text('${bundesland:json}'))) = 'true'\nORDER BY 1,2",
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  inzidenz_increase_daily_percent\nFROM inzidenz($inzidenz_days, $per_capita, $delta_days, get_rids('${bundesland:json}', '${bezirk:json}'))\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}'\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -1167,5 +1167,5 @@
   "timezone": "",
   "title": "Inzidenz",
   "uid": "c664EFpGk",
-  "version": 4
+  "version": 6
 }

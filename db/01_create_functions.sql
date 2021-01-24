@@ -29,7 +29,7 @@ end;
 $$;
 
 drop function if exists inzidenz(days integer, per_capita integer, delta_days integer);
-create or replace function inzidenz(days int default 7, per_capita int default 100000, delta_days int default 5)
+create or replace function inzidenz(days int default 7, per_capita int default 100000, delta_days int default 5, rids int[] default '{}')
     returns table
             (
                 date                            timestamp,
@@ -57,14 +57,15 @@ from (
                          sum(anz_faelle) over w_inz                                       as anz_faelle,
                          (sum(anz_faelle) over w_inz)::float / anz_einwohner * per_capita as inzidenz
                   from timeline_full
-                      window w_inz as (partition by region order by date rows days-1 preceding)
+                  where (rid = any(rids) OR rids='{}')
+                      window w_inz as (partition by rid order by date rows days-1 preceding)
               ) inz
-             window w_delta as (partition by region order by date)
+             window w_delta as (partition by rid order by date)
      ) days_ago,
      calculate_deltas(inzidenz, inzidenz_days_ago, delta_days) deltas
 $$;
 
-drop function if exists faelle(delta_days int);
+drop function if exists faelle(delta_days int, rids int[]);
 create or replace function faelle(delta_days int, rids int[])
     returns table
             (
@@ -123,10 +124,11 @@ $$;
 drop function if exists get_rids(bundesland varchar, bezirk varchar);
 create or replace function get_rids(bundesland varchar, bezirk varchar)
     returns int[]
-    language sql
-    stable
+    language plpgsql
 as
 $$
-select (get_rids_for_bundesland(bundesland) || get_rids_for_bezirk(bezirk))
+begin
+    return get_rids_for_bundesland(bundesland) || get_rids_for_bezirk(bezirk);
+end
 $$;
 
