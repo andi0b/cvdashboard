@@ -680,14 +680,11 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "tags": [],
           "text": [
-            "Wien (Bezirk)",
-            "Bruck-Mürzzuschlag"
+            "Wien (Bezirk)"
           ],
           "value": [
-            "Wien (Bezirk)",
-            "Bruck-Mürzzuschlag"
+            "Wien (Bezirk)"
           ]
         },
         "datasource": "PostgreSQL",
@@ -708,30 +705,39 @@
         "tagValuesQuery": "select bezirk from bezirk where bundesland = '$tag'",
         "tags": [
           {
+            "selected": false,
             "text": "Burgenland"
           },
           {
+            "selected": false,
             "text": "Kärnten"
           },
           {
+            "selected": false,
             "text": "Niederösterreich"
           },
           {
+            "selected": false,
             "text": "Oberösterreich"
           },
           {
+            "selected": false,
             "text": "Salzburg"
           },
           {
+            "selected": false,
             "text": "Steiermark"
           },
           {
+            "selected": false,
             "text": "Tirol"
           },
           {
+            "selected": false,
             "text": "Vorarlberg"
           },
           {
+            "selected": false,
             "text": "Wien"
           }
         ],
@@ -743,12 +749,11 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "tags": [],
           "text": [
-            "Steiermark"
+            "Österreich"
           ],
           "value": [
-            "Steiermark"
+            "Österreich"
           ]
         },
         "datasource": "PostgreSQL",
