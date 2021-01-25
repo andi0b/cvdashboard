@@ -34,3 +34,4 @@ _ReSharper*/
 packages/
 
 /.env
+/docker-compose.override.yml

@@ -19,20 +19,15 @@ services:
   db:
     build:
       context: postgres-r/
-    #image: postgres:13
     environment:
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-    ports:
-      - "127.0.0.1:5432:5432"
     volumes:
       - "./data:/data"
       - "./db:/db"
 
   pgpool:
     image: bitnami/pgpool:4
-    ports:
-      - 5433:5432
     environment:
       - PGPOOL_BACKEND_NODES=0:db:5432
       - PGPOOL_ENABLE_LDAP=no
