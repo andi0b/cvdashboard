@@ -15,90 +15,180 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 4,
-  "iteration": 1605875410389,
+  "id": 2,
+  "iteration": 1611595996812,
   "links": [],
   "panels": [
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": null,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Anzahl Fälle",
+            "axisPlacement": "auto",
+            "drawStyle": "line",
+            "fillOpacity": 27,
+            "gradientMode": "hue",
+            "hideFrom": {
+              "graph": false,
+              "legend": false,
+              "tooltip": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 3,
+            "pointSize": 6,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": true
+          },
+          "mappings": [],
+          "nullValueMode": "null",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "locale"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "hi95"
+            },
+            "properties": [
+              {
+                "id": "custom.fillBelowTo",
+                "value": "hi80"
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 0
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "hi80"
+            },
+            "properties": [
+              {
+                "id": "custom.fillBelowTo",
+                "value": "forecast"
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 0
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "forecast"
+            },
+            "properties": [
+              {
+                "id": "custom.fillBelowTo",
+                "value": "lo80"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "orange",
+                  "mode": "fixed"
+                }
+              },
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "fill": "dash"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "lo80"
+            },
+            "properties": [
+              {
+                "id": "custom.fillBelowTo",
+                "value": "lo95"
+              },
+              {
+                "id": "custom.lineWidth",
+                "value": 0
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "lo95"
+            },
+            "properties": [
+              {
+                "id": "custom.lineWidth",
+                "value": 0
+              }
+            ]
+          }
+        ]
       },
-      "fill": 1,
-      "fillGradient": 6,
       "gridPos": {
         "h": 15,
         "w": 24,
         "x": 0,
         "y": 0
       },
-      "hiddenSeries": false,
       "id": 2,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 2,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.2.1",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "$$hashKey": "object:460",
-          "alias": "hi95",
-          "color": "#F2495C",
-          "fillBelowTo": "hi80",
-          "lines": false
+        "graph": {},
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
         },
-        {
-          "$$hashKey": "object:465",
-          "alias": "hi80",
-          "color": "#FF9830",
-          "fillBelowTo": "forecast",
-          "lines": false
-        },
-        {
-          "$$hashKey": "object:476",
-          "alias": "forecast",
-          "color": "#5794F2",
-          "fillBelowTo": "lo80",
-          "lines": false
-        },
-        {
-          "$$hashKey": "object:487",
-          "alias": "lo80",
-          "color": "#B877D9",
-          "fillBelowTo": "lo95",
-          "lines": false
-        },
-        {
-          "$$hashKey": "object:498",
-          "alias": "lo95",
-          "lines": false
+        "tooltipOptions": {
+          "mode": "single"
         }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      },
+      "pluginVersion": "7.4.0-beta1",
       "targets": [
         {
           "format": "time_series",
@@ -129,52 +219,14 @@
           ]
         }
       ],
-      "thresholds": [],
       "timeFrom": null,
-      "timeRegions": [],
       "timeShift": null,
       "title": "Holt Winters Forecast (add, damped)",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:59",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:60",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
+      "type": "timeseries"
     }
   ],
   "refresh": false,
-  "schemaVersion": 26,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -182,12 +234,14 @@
       {
         "allValue": null,
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "Österreich",
           "value": "Österreich"
         },
         "datasource": "PostgreSQL",
         "definition": "select bundesland from bundesland",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Region",
@@ -212,6 +266,8 @@
           "text": "1",
           "value": "1"
         },
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": null,
@@ -416,6 +472,8 @@
           "text": "14",
           "value": "14"
         },
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": null,

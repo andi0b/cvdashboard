@@ -45,7 +45,7 @@ library('forecast')
 
 # functions
 date_series <- function(startDate, days) startDate + (0:(days - 1) * 3600 * 24)
-my_forecast <- function(ts, h) hw(ts, h = h, damped = TRUE)
+my_forecast <- function(ts, h) hw(ts, h = h, damped = TRUE, lambda='auto')
 
 #### prepare data
 # create dataframe from input arrays
