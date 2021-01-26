@@ -46,10 +46,11 @@ services:
       context: import-data-service/
     
     environment:
-      - POSTGRES_USER=${POSTGRES_USER:-postgres}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - PGUSER=${POSTGRES_USER:-postgres}
+      - PGPASSWORD=${POSTGRES_PASSWORD:-postgres}
 
     volumes:
       - "./data:/data"
       - "./db:/db"
+      - "./scripts:/scripts"
 

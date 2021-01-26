@@ -1,2 +1,3 @@
 #!/bin/bash
-docker exec -it cvdashboard_db_1 bash -c "cd /db && psql -U postgres -d postgres -f init.sql"
+cd /db
+psql -U $PGUSER -d postgres -h db -f init.sql
