@@ -72,7 +72,7 @@ return(joined)
 $$;
 
 create or replace function faelle_prediction(region_filter varchar default 'Österreich', predict_h integer default 14,
-                                             remove_values_tail integer default 0)
+                                             remove_values_tail integer default 1)
     returns setof predict_result
     language sql stable
 as
