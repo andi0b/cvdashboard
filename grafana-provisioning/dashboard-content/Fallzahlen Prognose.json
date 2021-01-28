@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 2,
-  "iteration": 1611595996812,
+  "iteration": 1611861469321,
   "links": [],
   "panels": [
     {
@@ -223,6 +223,60 @@
       "timeShift": null,
       "title": "Holt Winters Forecast (add, damped)",
       "type": "timeseries"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "id": 4,
+      "options": {
+        "content": "# Prognose der Fallzahlen\n\nDiese Ansicht zeigt eine Prognose der zu erwartenden Fallzahlen an. Dazu wird eine 3-fach exponentielle Glättung nach der Methode von Holt-Winters benutzt.\n\nWählen Sie folgende Parameter aus:\n- **Region:** Gesamt Österreich oder ein Bundesland\n- **remove_values_tail:** Bei der Prognose werden die Werte der letzten x Tage ignoriert. Auf Grund von Nachmeldungen sollte zumindest die Daten des etzte Tages (1) entfernt werden\n- **predict_h:** Anzahl der Tage die vorhergesagt werden sollen\n\n**Achtung:** Diese Prognose wird nur auf Basis von vergangenen Fallzahlen erstellt und kann keine Trendänderungen vorhersehen. Es werden nur bestehende Trends fortgeschrieben. Änderungen in den Rahmenbedingungen wie Beispielsweise neue Schutz-Maßnahmen, Mutationen oder Impfungen, führen zwangsläufig zu falschen Prognosen.\n\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "7.4.0-beta1",
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  date AS \"time\",\n  inz_faelle_7d\nFROM timeline_bezirke\nWHERE\n  $__timeFilter(date)\nORDER BY 1",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "inz_faelle_7d"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "timeline_bezirke",
+          "timeColumn": "date",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "title": " ",
+      "transparent": true,
+      "type": "text"
     }
   ],
   "refresh": false,
@@ -676,5 +730,5 @@
   "timezone": "",
   "title": "Fallzahlen Prognose",
   "uid": "o6AcbYTMk",
-  "version": 2
+  "version": 4
 }

@@ -36,7 +36,7 @@ create type predict_result as
 
 create or replace function predict(input_dates timestamp[], input_values float[], inputs_frequency float default 7,
                                    predict_h integer default 14,
-                                   remove_values_tail integer default 0)
+                                   remove_values_tail integer default 1)
     returns setof predict_result
     language plr stable
 as
