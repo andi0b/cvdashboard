@@ -1,6 +1,10 @@
 # cvdashboard: COVID-19 Dashboard for Austria
 
-Grafana Dashboard with Postgres backend, based on AGES data.
+Grafana Dashboard with Postgres backend, based on data provided by [AGES/Open Data Austra](https://www.data.gv.at/covid-19/)
+
+See it live: [covid.greenwasp.at](https://covid.greenwasp.at)
+
+![screenshot](docs/screenshot1.png)
 
 # How to run it
 
