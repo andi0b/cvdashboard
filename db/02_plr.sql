@@ -81,6 +81,7 @@ with source as (
     select array_agg(date) as dates, array_agg(anz_faelle::float) as faelle
     from timeline_full
     where region = region_filter
+    order by date asc
 )
 select prediction.*
 from source,

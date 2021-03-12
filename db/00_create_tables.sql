@@ -1,8 +1,8 @@
 begin;
 
 drop materialized view if exists timeline_full;
-drop materialized view if exists tests;
 drop materialized view if exists tests_weekly;
+drop materialized view if exists tests;
 drop table if exists timeline_bezirke;
 drop table if exists timeline_laender;
 drop table if exists fallzahlen;
@@ -95,10 +95,10 @@ select date,
        anz_geheilte_taeglich,
        anz_geheilte_sum
 from timeline_laender
-order by date desc, rid asc;
+order by date asc, rid asc;
 
-create index IDX_timeline_full_rid on timeline_full(rid asc);
-create index IDX_timeline_full_date on timeline_full(date desc);
+create index IDX_timeline_full_rid on timeline_full (rid asc);
+create index IDX_timeline_full_date on timeline_full (date desc);
 
 
 create materialized view tests as
@@ -114,11 +114,15 @@ select tl.date,
        anz_tot_sum,
        anz_geheilte_taeglich,
        anz_geheilte_sum,
-       f.test_gesamt as anz_test_sum,
+       f.fz_hosp,
+       f.fz_hosp_free,
+       f.fz_icu,
+       f.fz_icu_free,
+       f.test_gesamt                                            as anz_test_sum,
        f.test_gesamt - lag(f.test_gesamt) over w_current_period as anz_test_taeglich
 from timeline_laender tl
-        join fallzahlen f on tl.bid = f.bid and tl.date = f.date
-        window w_current_period as (partition by f.bid order by f.date rows 1 preceding)
+         join fallzahlen f on tl.bid = f.bid and tl.date = f.date
+    window w_current_period as (partition by f.bid order by f.date rows 1 preceding)
 order by date desc;
 
 create materialized view tests_weekly as
@@ -129,8 +133,12 @@ select date_trunc('week', date) + interval '7 days' - interval '1 minute' as wee
        sum(anz_faelle)                                                    as anz_faelle_7d,
        sum(anz_tot_taeglich)                                              as anz_tot_7d,
        sum(anz_geheilte_taeglich)                                         as anz_geheilte_7d,
-       sum(anz_test_taeglich)                                             as anz_test_7d,
        ((sum(anz_faelle) * 100000) / max(anz_einwohner))                  as inz_faelle_7d,
+       avg(fz_hosp)                                                       as avg_fz_hosp_7d,
+       avg(fz_hosp_free)                                                  as avg_fz_hosp_free_7d,
+       avg(fz_icu)                                                        as avg_fz_icu_7d,
+       avg(fz_icu_free)                                                   as avg_fz_icu_free_7d,
+       sum(anz_test_taeglich)                                             as anz_test_7d,
        case
            when sum(anz_test_taeglich) > 0 then
                sum(anz_faelle)::float / sum(anz_test_taeglich)
