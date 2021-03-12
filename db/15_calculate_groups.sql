@@ -47,4 +47,6 @@ call insert_bezirk_summary(799, 'Innsbruck (Stadt und Land)', ARRAY [701, 703]);
 
 call insert_bezirk_summary(999, 'Wien mit Umland (W, MD, BL, GF, KO, TU, PL, MI, BN)', ARRAY [900, 317, 307, 308, 312, 321, 319, 316, 306]);
 
+refresh materialized view timeline_full;
+
 commit;
