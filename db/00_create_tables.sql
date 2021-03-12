@@ -1,6 +1,8 @@
 begin;
 
-drop view if exists timeline_full;
+drop materialized view if exists timeline_full;
+drop materialized view if exists tests;
+drop materialized view if exists tests_weekly;
 drop table if exists timeline_bezirke;
 drop table if exists timeline_laender;
 drop table if exists fallzahlen;
@@ -57,12 +59,13 @@ create table fallzahlen
     fz_icu       int       not null,
     fz_hosp_free int       not null,
     fz_icu_free  int       not null,
+    test_gesamt  int       not null,
     primary key (id)
 );
 
 
 
-create view timeline_full as
+create materialized view timeline_full as
 select date,
        bezirk as region,
        gkz    as rid,
@@ -92,8 +95,49 @@ select date,
        anz_geheilte_taeglich,
        anz_geheilte_sum
 from timeline_laender
-order by date asc, rid asc;
+order by date desc, rid asc;
 
+create index IDX_timeline_full_rid on timeline_full(rid asc);
+create index IDX_timeline_full_date on timeline_full(date desc);
+
+
+create materialized view tests as
+select tl.date,
+       tl.bundesland,
+       tl.bid,
+       anz_einwohner,
+       anz_faelle,
+       anz_faelle_sum,
+       anz_faelle_7d,
+       inz_faelle_7d,
+       anz_tot_taeglich,
+       anz_tot_sum,
+       anz_geheilte_taeglich,
+       anz_geheilte_sum,
+       f.test_gesamt as anz_test_sum,
+       f.test_gesamt - lag(f.test_gesamt) over w_current_period as anz_test_taeglich
+from timeline_laender tl
+        join fallzahlen f on tl.bid = f.bid and tl.date = f.date
+        window w_current_period as (partition by f.bid order by f.date rows 1 preceding)
+order by date desc;
+
+create materialized view tests_weekly as
+select date_trunc('week', date) + interval '7 days' - interval '1 minute' as week,
+       bid,
+       max(bundesland)                                                    as bundesland,
+       max(anz_einwohner)                                                 as anz_einwohner,
+       sum(anz_faelle)                                                    as anz_faelle_7d,
+       sum(anz_tot_taeglich)                                              as anz_tot_7d,
+       sum(anz_geheilte_taeglich)                                         as anz_geheilte_7d,
+       sum(anz_test_taeglich)                                             as anz_test_7d,
+       ((sum(anz_faelle) * 100000) / max(anz_einwohner))                  as inz_faelle_7d,
+       case
+           when sum(anz_test_taeglich) > 0 then
+               sum(anz_faelle)::float / sum(anz_test_taeglich)
+           else 0 end                                                     as test_positivrate
+from tests
+group by week, bid
+order by week desc, bid;
 
 
 drop table if exists bundesland;

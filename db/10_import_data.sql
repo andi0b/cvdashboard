@@ -45,8 +45,13 @@ update import_fallzahlen
 set bundesland = 'Österreich'
 where (bundesland = 'Alle');
 
-insert into fallzahlen (date, bundesland, bid, fz_hosp, fz_icu, fz_hosp_free, fz_icu_free)
-select meldedat, bundesland, bundesland_id, fz_hosp, fz_icu, fz_hosp_free, fz_icu_free
+insert into fallzahlen (date, bundesland, bid, fz_hosp, fz_icu, fz_hosp_free, fz_icu_free, test_gesamt)
+select meldedat, bundesland, bundesland_id, fz_hosp, fz_icu, fz_hosp_free, fz_icu_free, test_gesamt
 from import_fallzahlen;
+
+refresh materialized view tests;
+refresh materialized view tests_weekly;
+refresh materialized view timeline_full;
+
 
 commit;
