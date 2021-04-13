@@ -3,7 +3,8 @@ version: "3.3"
 services:
 
   grafana:
-    image: grafana/grafana:7.4.3
+    image: grafana/grafana:7.5.3
+    restart: always
     environment:
       - GRAFANA_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
       - GRAFANA_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
@@ -19,6 +20,7 @@ services:
   db:
     build:
       context: postgres-r/
+    restart: always
     environment:
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
@@ -28,6 +30,7 @@ services:
 
   pgpool:
     image: bitnami/pgpool:4
+    restart: always
     environment:
       - PGPOOL_BACKEND_NODES=0:db:5432
       - PGPOOL_ENABLE_LDAP=no
