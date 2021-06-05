@@ -53,5 +53,4 @@ refresh materialized view tests;
 refresh materialized view tests_weekly;
 refresh materialized view timeline_full;
 
-
 commit;

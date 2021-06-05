@@ -687,7 +687,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT date as time, value, lo95, lo80, forecast, hi80, hi95\nFROM faelle_prediction()\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}'::date + 14\nORDER BY 1",
+          "rawSql": "with set as (\n    select * from faelle_prediction_cache where bundesland = 'Österreich' and remove_values_tail = 1\n)\nselect date as time, value, lo95, lo80, forecast, hi80, hi95 from set \nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}'::date + 14",
           "refId": "A",
           "select": [
             [

@@ -95,7 +95,7 @@ select date,
        anz_geheilte_taeglich,
        anz_geheilte_sum
 from timeline_laender
-order by date asc, rid asc;
+order by rid asc, date asc;
 
 create index IDX_timeline_full_rid on timeline_full (rid asc);
 create index IDX_timeline_full_date on timeline_full (date desc);

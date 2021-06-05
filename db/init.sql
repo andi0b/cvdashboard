@@ -4,4 +4,5 @@
 \i 10_import_data.sql
 \i 15_calculate_groups.sql
 \i 20_extract_stammdaten.sql
+\i 25_refresh_views.sql
 \i 30_create_users_permissions.sql

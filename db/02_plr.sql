@@ -1,8 +1,7 @@
 do
 $$
     begin
-        if not EXISTS(select * from pg_language where lanname = 'plr') then
-
+        if not exists(select * from pg_language where lanname = 'plr') then
             -- initialize PLR
             create function plr_call_handler()
                 returns language_handler
@@ -17,7 +16,7 @@ $$;
 
 
 drop function if exists predict(input_dates timestamp[], input_values float[], inputs_frequency float,
-    predict_h integer, remove_values_tail integer);
+                                predict_h integer, remove_values_tail integer);
 
 drop function if exists faelle_prediction(region_filter varchar, predict_h integer, remove_values_tail integer);
 
@@ -38,14 +37,15 @@ create or replace function predict(input_dates timestamp[], input_values float[]
                                    predict_h integer default 14,
                                    remove_values_tail integer default 1)
     returns setof predict_result
-    language plr stable
+    language plr
+    stable
 as
 $$
 library('forecast')
 
 # functions
 date_series <- function(startDate, days) startDate + (0:(days - 1) * 3600 * 24)
-my_forecast <- function(ts, h) hw(ts, h = h, damped = TRUE, lambda='auto')
+my_forecast <- function(ts, h) hw(ts, h = h, damped = TRUE, lambda = 'auto')
 
 #### prepare data
 # create dataframe from input arrays
@@ -74,16 +74,37 @@ $$;
 create or replace function faelle_prediction(region_filter varchar default 'Österreich', predict_h integer default 14,
                                              remove_values_tail integer default 1)
     returns setof predict_result
-    language sql stable
+    language sql
+    stable
 as
 $$
 with source as (
     select array_agg(date) as dates, array_agg(anz_faelle::float) as faelle
     from timeline_full
-    where region = region_filter
+    where rid = (select rid from timeline_full where region = region_filter limit 1)
 )
 select prediction.*
 from source,
      predict(source.dates, source.faelle,
              predict_h := predict_h, remove_values_tail := remove_values_tail) prediction
 $$;
+
+drop index if exists idx_faelle_prediction_cache_biddate;
+drop index if exists idx_faelle_prediction_cache_bundeslanddate;
+drop materialized view if exists faelle_prediction_cache;
+create materialized view faelle_prediction_cache
+as
+with parameters as (
+    select *
+    from bundesland,
+         generate_series(0, 36) as remove_values_tail
+)
+select *
+from parameters, faelle_prediction(bundesland, 36, remove_values_tail)
+order by bid, remove_values_tail
+with no data;
+
+create index idx_faelle_prediction_cache_biddate on predictions (bid, remove_values_tail);
+
+create index idx_faelle_prediction_cache_bundeslanddate on predictions (bundesland, remove_values_tail);
+

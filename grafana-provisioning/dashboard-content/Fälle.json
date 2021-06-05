@@ -18,7 +18,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 2,
-  "iteration": 1611479321822,
+  "iteration": 1622904882915,
   "links": [],
   "panels": [
     {
@@ -45,6 +45,7 @@
           "custom": {
             "axisLabel": "",
             "axisPlacement": "auto",
+            "barAlignment": 0,
             "drawStyle": "line",
             "fillOpacity": 50,
             "gradientMode": "opacity",
@@ -66,7 +67,6 @@
             "spanNulls": true
           },
           "mappings": [],
-          "nullValueMode": "null",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -109,7 +109,7 @@
           "group": [],
           "metricColumn": "region",
           "rawQuery": true,
-          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  anz_faelle\nFROM timeline_full\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}' AND\n  rid = ANY(get_rids('${bundesland:json}', '${bezirk:json}'))\nORDER BY 1,2",
+          "rawSql": "SELECT\n  date AS \"time\",\n  region AS metric,\n  anz_faelle\nFROM timeline_full\nWHERE\n  date BETWEEN '${__from:date:YYYY-MM-DD}' AND '${__to:date:YYYY-MM-DD}' AND\n  rid = ANY(select unnest(get_rids('${bundesland:json}', '${bezirk:json}')))\nORDER BY 1,2",
           "refId": "A",
           "select": [
             [
@@ -171,7 +171,6 @@
       "description": "",
       "fieldConfig": {
         "defaults": {
-          "custom": {},
           "unit": "percent"
         },
         "overrides": []
@@ -204,7 +203,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.0-beta1",
+      "pluginVersion": "7.5.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -318,7 +317,6 @@
           "color": {
             "mode": "thresholds"
           },
-          "custom": {},
           "mappings": [],
           "max": -25,
           "min": 25,
@@ -374,7 +372,7 @@
         "showThresholdMarkers": true,
         "text": {}
       },
-      "pluginVersion": "7.4.0-beta1",
+      "pluginVersion": "7.5.3",
       "targets": [
         {
           "format": "time_series",
@@ -443,7 +441,6 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
       "transformations": [],
       "type": "gauge"
     },
@@ -529,7 +526,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.4.0-beta1",
+      "pluginVersion": "7.5.3",
       "targets": [
         {
           "format": "table",
@@ -633,7 +630,7 @@
         "showHeader": true,
         "sortBy": []
       },
-      "pluginVersion": "7.4.0-beta1",
+      "pluginVersion": "7.5.3",
       "targets": [
         {
           "format": "table",
@@ -876,5 +873,5 @@
   "timezone": "",
   "title": "Fälle",
   "uid": "9778YUpGz",
-  "version": 5
+  "version": 1
 }

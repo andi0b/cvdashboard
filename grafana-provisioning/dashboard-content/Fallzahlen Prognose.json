@@ -15,8 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 2,
-  "iteration": 1611861469321,
+  "id": 1,
+  "iteration": 1622912863917,
   "links": [],
   "panels": [
     {
@@ -29,6 +29,7 @@
           "custom": {
             "axisLabel": "Anzahl Fälle",
             "axisPlacement": "auto",
+            "barAlignment": 0,
             "drawStyle": "line",
             "fillOpacity": 27,
             "gradientMode": "hue",
@@ -47,7 +48,6 @@
             "spanNulls": true
           },
           "mappings": [],
-          "nullValueMode": "null",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -195,7 +195,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT date as time, value, lo95, lo80, forecast, hi80, hi95\nFROM faelle_prediction('$bundesland', predict_h := $predict_h, remove_values_tail := $remove_values_tail)\nWHERE\n  $__timeFilter(date)\nORDER BY 1",
+          "rawSql": "with set as (\n    select * from faelle_prediction_cache where bundesland = '$bundesland' and remove_values_tail = $remove_values_tail\n)\nselect date as time, value, lo95, lo80, forecast, hi80, hi95 from set order by date limit (select count(*) from set) - (36-$predict_h);",
           "refId": "A",
           "select": [
             [
@@ -227,9 +227,7 @@
     {
       "datasource": null,
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "gridPos": {
@@ -243,7 +241,7 @@
         "content": "# Prognose der Fallzahlen\n\nDiese Ansicht zeigt eine Prognose der zu erwartenden Fallzahlen an. Dazu wird eine 3-fach exponentielle Glättung nach der Methode von Holt-Winters benutzt.\n\nWählen Sie folgende Parameter aus:\n- **Region:** Gesamt Österreich oder ein Bundesland\n- **remove_values_tail:** Bei der Prognose werden die Werte der letzten x Tage ignoriert. Auf Grund von Nachmeldungen sollte zumindest die Daten des etzte Tages (1) entfernt werden\n- **predict_h:** Anzahl der Tage die vorhergesagt werden sollen\n\n**Achtung:** Diese Prognose wird nur auf Basis von vergangenen Fallzahlen erstellt und kann keine Trendänderungen vorhersehen. Es werden nur bestehende Trends fortgeschrieben. Änderungen in den Rahmenbedingungen wie Beispielsweise neue Schutz-Maßnahmen, Mutationen oder Impfungen, führen zwangsläufig zu falschen Prognosen.\n\n",
         "mode": "markdown"
       },
-      "pluginVersion": "7.4.0-beta1",
+      "pluginVersion": "7.5.3",
       "targets": [
         {
           "format": "time_series",
@@ -288,7 +286,7 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
+          "selected": true,
           "text": "Österreich",
           "value": "Österreich"
         },
@@ -730,5 +728,5 @@
   "timezone": "",
   "title": "Fallzahlen Prognose",
   "uid": "o6AcbYTMk",
-  "version": 4
+  "version": 1
 }
