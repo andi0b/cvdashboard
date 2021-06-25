@@ -182,7 +182,7 @@
           "color": {
             "mode": "thresholds"
           },
-          "custom": {},
+          "decimals": 1,
           "mappings": [
             {
               "from": "",
@@ -199,32 +199,24 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "dark-green",
                 "value": null
               },
               {
-                "color": "light-green",
+                "color": "rgb(95, 135, 45)",
+                "value": 5
+              },
+              {
+                "color": "semi-dark-yellow",
                 "value": 25
               },
               {
-                "color": "yellow",
+                "color": "light-orange",
                 "value": 50
               },
               {
-                "color": "light-orange",
+                "color": "super-light-red",
                 "value": 100
-              },
-              {
-                "color": "dark-orange",
-                "value": 200
-              },
-              {
-                "color": "semi-dark-red",
-                "value": 300
-              },
-              {
-                "color": "rgb(135, 15, 28)",
-                "value": 400
               }
             ]
           }
@@ -613,19 +605,42 @@
           },
           "custom": {
             "align": null,
+            "displayMode": "auto",
             "filterable": false
           },
           "mappings": [],
+          "max": 500,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "dark-green",
                 "value": null
               },
               {
-                "color": "red",
-                "value": 80
+                "color": "rgb(95, 135, 45)",
+                "value": 5
+              },
+              {
+                "color": "semi-dark-yellow",
+                "value": 25
+              },
+              {
+                "color": "light-orange",
+                "value": 50
+              },
+              {
+                "color": "light-red",
+                "value": 100
+              },
+              {
+                "color": "dark-red",
+                "value": 250
+              },
+              {
+                "color": "dark-purple",
+                "value": 500
               }
             ]
           }
@@ -643,7 +658,11 @@
               },
               {
                 "id": "decimals",
-                "value": 0
+                "value": 1
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "gradient-gauge"
               }
             ]
           },
@@ -730,17 +749,40 @@
             "align": null,
             "filterable": false
           },
+          "decimals": 1,
           "mappings": [],
+          "max": 500,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "dark-green",
                 "value": null
               },
               {
-                "color": "red",
-                "value": 80
+                "color": "rgb(95, 135, 45)",
+                "value": 5
+              },
+              {
+                "color": "semi-dark-yellow",
+                "value": 25
+              },
+              {
+                "color": "light-orange",
+                "value": 50
+              },
+              {
+                "color": "light-red",
+                "value": 100
+              },
+              {
+                "color": "dark-red",
+                "value": 250
+              },
+              {
+                "color": "dark-purple",
+                "value": 500
               }
             ]
           }
@@ -758,7 +800,11 @@
               },
               {
                 "id": "decimals",
-                "value": 0
+                "value": 1
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "gradient-gauge"
               }
             ]
           },

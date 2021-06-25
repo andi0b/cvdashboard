@@ -106,15 +106,19 @@
             "showPoints": "never",
             "spanNulls": true
           },
-          "decimals": 0,
+          "decimals": 1,
           "mappings": [],
           "nullValueMode": "null",
           "thresholds": {
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "dark-green",
                 "value": null
+              },
+              {
+                "color": "rgb(95, 135, 45)",
+                "value": 5
               },
               {
                 "color": "semi-dark-yellow",
@@ -125,8 +129,16 @@
                 "value": 50
               },
               {
-                "color": "super-light-red",
+                "color": "light-red",
                 "value": 100
+              },
+              {
+                "color": "dark-red",
+                "value": 250
+              },
+              {
+                "color": "dark-purple",
+                "value": 500
               }
             ]
           },
