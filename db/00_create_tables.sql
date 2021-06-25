@@ -3,6 +3,7 @@ begin;
 drop materialized view if exists timeline_full;
 drop materialized view if exists tests_weekly;
 drop materialized view if exists tests;
+drop materialized view if exists  faelle_prediction_cache;
 drop table if exists timeline_bezirke;
 drop table if exists timeline_laender;
 drop table if exists fallzahlen;

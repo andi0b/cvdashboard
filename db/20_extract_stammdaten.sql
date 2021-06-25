@@ -1,5 +1,5 @@
 begin;
-
+delete from bundesland;
 insert into bundesland
 select *
 from (
@@ -13,7 +13,7 @@ order by case
              end,
          bundesland;
 
-
+delete from bezirk;
 insert into bezirk
 select distinct(gkz) gkz, bezirk, b.bid, b.bundesland
 from timeline_bezirke tl

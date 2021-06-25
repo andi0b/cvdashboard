@@ -104,7 +104,7 @@ from parameters, faelle_prediction(bundesland, 36, remove_values_tail)
 order by bid, remove_values_tail
 with no data;
 
-create index idx_faelle_prediction_cache_biddate on predictions (bid, remove_values_tail);
+create index idx_faelle_prediction_cache_biddate on faelle_prediction_cache (bid, remove_values_tail);
 
-create index idx_faelle_prediction_cache_bundeslanddate on predictions (bundesland, remove_values_tail);
+create index idx_faelle_prediction_cache_bundeslanddate on faelle_predictions_cache (bundesland, remove_values_tail);
 
