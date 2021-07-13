@@ -1,3 +1,4 @@
+rollback;
 begin;
 
 drop table if exists import_impfung;
@@ -96,10 +97,10 @@ from impfung
 where 1 = 1;
 
 insert into impfung (date, bid, gruppe, geschlecht, dosis, impfstoff, anzahl)
-select datum                   as date,
+select datum                           as date,
        bundesland_id,
-       'undefined'::gruppe     as gruppe,
-       'undefined'::geschlecht as geschlecht,
+       'Impfbare Bevölkerung'::gruppe  as gruppe,
+       'Alle Geschlechter'::geschlecht as geschlecht,
        dosis,
        impfstoff::impfstoff,
        anzahl
@@ -111,16 +112,29 @@ from import_impfung
            (2, 'AstraZeneca', eingetragene_impfungen_astra_zeneca_2),
            (1, 'Moderna', eingetragene_impfungen_moderna_1),
            (2, 'Moderna', eingetragene_impfungen_moderna_2),
-           (1, 'Janssen', eingetragene_impfungen_janssen)
+           (1, 'Janssen', eingetragene_impfungen_janssen),
+           (1, 'Alle Impfstoffe', eingetragene_impfungen_biontech_pfizer_1
+               + eingetragene_impfungen_astra_zeneca_1
+               + eingetragene_impfungen_moderna_1
+               + eingetragene_impfungen_janssen),
+           (2, 'Alle Impfstoffe', eingetragene_impfungen_biontech_pfizer_2
+               + eingetragene_impfungen_astra_zeneca_2
+               + eingetragene_impfungen_moderna_2)
     ) as unpivot (dosis, impfstoff, anzahl)
 
 union all
 
-select datum as date, bundesland_id, gruppe::gruppe, geschlecht::geschlecht, dosis, 'undefined'::impfstoff, anzahl
+select datum as date,
+       bundesland_id,
+       gruppe::gruppe,
+       geschlecht::geschlecht,
+       dosis,
+       'Alle Impfstoffe'::impfstoff,
+       anzahl
 from import_impfung
          cross join lateral (
     values -- 1,m
-           (1, '<25', 'm', gruppe_lt_25_m_1),
+           (1, '12-24', 'm', gruppe_lt_25_m_1),
            (1, '25-34', 'm', gruppe_25_34_m_1),
            (1, '35-44', 'm', gruppe_35_44_m_1),
            (1, '45-54', 'm', gruppe_45_54_m_1),
@@ -130,7 +144,7 @@ from import_impfung
            (1, '>84', 'm', gruppe_gt_84_m_1),
 
            -- 2,m
-           (2, '<25', 'm', gruppe_lt_25_m_1),
+           (2, '12-24', 'm', gruppe_lt_25_m_1),
            (2, '25-34', 'm', gruppe_25_34_m_1),
            (2, '35-44', 'm', gruppe_35_44_m_1),
            (2, '45-54', 'm', gruppe_45_54_m_1),
@@ -140,7 +154,7 @@ from import_impfung
            (2, '>84', 'm', gruppe_gt_84_m_1),
 
            -- 1,w
-           (1, '<25', 'w', gruppe_lt_25_w_1),
+           (1, '12-24', 'w', gruppe_lt_25_w_1),
            (1, '25-34', 'w', gruppe_25_34_w_1),
            (1, '35-44', 'w', gruppe_35_44_w_1),
            (1, '45-54', 'w', gruppe_45_54_w_1),
@@ -150,7 +164,7 @@ from import_impfung
            (1, '>84', 'w', gruppe_gt_84_w_1),
 
            -- 2,w
-           (2, '<25', 'w', gruppe_lt_25_w_2),
+           (2, '12-24', 'w', gruppe_lt_25_w_2),
            (2, '25-34', 'w', gruppe_25_34_w_2),
            (2, '35-44', 'w', gruppe_35_44_w_2),
            (2, '45-54', 'w', gruppe_45_54_w_2),
@@ -160,7 +174,7 @@ from import_impfung
            (2, '>84', 'w', gruppe_gt_84_w_2),
 
            -- 1,d
-           (1, '<25', 'd', gruppe_lt_25_d_1),
+           (1, '12-24', 'd', gruppe_lt_25_d_1),
            (1, '25-34', 'd', gruppe_25_34_d_1),
            (1, '35-44', 'd', gruppe_35_44_d_1),
            (1, '45-54', 'd', gruppe_45_54_d_1),
@@ -170,7 +184,7 @@ from import_impfung
            (1, '>84', 'd', gruppe_gt_84_d_1),
 
            -- 2,d
-           (2, '<25', 'd', gruppe_lt_25_d_2),
+           (2, '12-24', 'd', gruppe_lt_25_d_2),
            (2, '25-34', 'd', gruppe_25_34_d_2),
            (2, '35-44', 'd', gruppe_35_44_d_2),
            (2, '45-54', 'd', gruppe_45_54_d_2),
@@ -179,6 +193,22 @@ from import_impfung
            (2, '75-84', 'd', gruppe_75_84_d_2),
            (2, '>84', 'd', gruppe_gt_84_d_2)
     ) as unpivot (dosis, gruppe, geschlecht, anzahl);
+
+
+insert into impfung (date, bid, gruppe, geschlecht, dosis, impfstoff, anzahl)
+
+-- altersgruppen für 'Alle Geschlechter' berechnen
+(select date, bid, gruppe, 'Alle Geschlechter'::geschlecht, dosis, impfstoff, sum(anzahl)
+from impfung
+where geschlecht <> 'Alle Geschlechter'
+group by date, bid, gruppe, dosis, impfstoff)
+
+union
+-- Werte für alle Geschlechter für Altersgruppen "Impfbare Bevölkerung" und "Alle Altersgruppen" berechnen
+(select date, bid, 'Impfbare Bevölkerung'::gruppe, geschlecht, dosis, impfstoff, sum(anzahl)
+from impfung
+where gruppe <> 'Impfbare Bevölkerung'
+group by date, bid, geschlecht, dosis, impfstoff);
 
 cluster impfung using idx_impfung_date_bid;
 
@@ -199,9 +229,7 @@ copy import_bevoelkerung (dataset_id, geschlecht, gemeinde, alter, anzahl)
     delimiter ';'
     csv header;
 
-drop materialized view if exists impfraten;
-drop materialized view if exists altersgruppen_by_bundesland;
-drop table if exists alter_by_bundesland;
+drop table if exists alter_by_bundesland cascade;
 select substring(gemeinde from 10 for 1)::int as bid,
        case
            when (alter = 'GALT5J100-21') then 100
@@ -227,47 +255,53 @@ select 10, geschlecht, alter, sum(anzahl)
 from alter_by_bundesland
 group by alter, geschlecht;
 
+drop materialized view if exists altersgruppen_by_bundesland cascade;
 create materialized view altersgruppen_by_bundesland as
-select bid,
-       (
-           case
-               when alter < 12 then 'undefined'
-               when alter < 25 then '<25'
-               when alter < 35 then '25-34'
-               when alter < 45 then '35-44'
-               when alter < 55 then '45-54'
-               when alter < 65 then '55-64'
-               when alter < 75 then '65-74'
-               when alter < 85 then '75-84'
-               else '>84'
-               end
-           )::gruppe as gruppe,
-       geschlecht,
-       sum(anzahl)   as anzahl
-from alter_by_bundesland
-group by bid, gruppe, geschlecht
-order by bid, gruppe;
+with parameters as (
+    select *
+    from (values ('12-24', 12, 24),
+                 ('25-34', 25, 34),
+                 ('35-44', 25, 44),
+                 ('45-54', 25, 54),
+                 ('55-64', 25, 64),
+                 ('65-74', 25, 74),
+                 ('75-84', 25, 84),
+                 ('>84', 85, 100),
+                 ('Impfbare Bevölkerung', 12, 100),
+                 ('Alle Altersgruppen', 0, 100)
+         ) as gruppe(gruppe, lowerInclusive, upperInclusive),
+         (values ('m'), ('w'), ('Alle Geschlechter')) as geschlecht_tbl(geschlecht),
+         generate_series(1, 10) as bid
+)
+select p.bid, p.gruppe::gruppe, p.geschlecht::geschlecht, sum(anzahl) as anzahl
+from alter_by_bundesland a,
+     parameters p
+where a.bid = p.bid
+  and (a.alter >= p.lowerInclusive and a.alter <= p.upperInclusive)
+  and (p.geschlecht = 'Alle Geschlechter' or a.geschlecht = p.geschlecht::geschlecht)
+group by p.gruppe, p.bid, p.geschlecht
+order by bid, geschlecht, gruppe;
 
+
+
+drop materialized view if exists impfraten;
 create materialized view impfraten as
 with total as (
     select *,
-           anzahl                                     as anzahl_total,
-           anzahl - coalesce((lag(anzahl) over w), 0) as anzahl_tag
+           anzahl                                        as anzahl_total,
+           anzahl - coalesce((lag(anzahl) over w), 0)    as anzahl_tag,
+           anzahl - coalesce((lag(anzahl, 7) over w), 0) as anzahl_7d
     from impfung
         window w as (
             partition by (bid, gruppe, geschlecht, dosis, impfstoff)
-            order by date asc )
+            order by date asc)
     order by bid, date)
 select t.*,
        a.anzahl                             as bevoelkerung,
        t.anzahl_total / nullif(a.anzahl, 0) as impfrate,
-       t.anzahl_tag / nullif(a.anzahl, 0)   as impfrate_tag
+       t.anzahl_tag / nullif(a.anzahl, 0)   as impfrate_tag,
+       t.anzahl_7d / nullif(a.anzahl, 0)    as impfrate_7d
 from total t
          left join altersgruppen_by_bundesland a
-                   on t.geschlecht = a.geschlecht and t.gruppe = a.gruppe and t.bid = a.bid
-where t.bid = 1
-  and t.gruppe = '>84'
-  and t.geschlecht = 'w'
-  and t.dosis = 1;
-
+                   on t.geschlecht = a.geschlecht and t.gruppe = a.gruppe and t.bid = a.bid;
 commit;

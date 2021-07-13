@@ -167,16 +167,18 @@ create table bezirk
     primary key (gkz)
 );
 
-drop table if exists impfung;
 
-drop type if exists geschlecht;
-create type geschlecht as enum ('undefined', 'm', 'w', 'd');
 
-drop type if exists gruppe;
-create type gruppe as enum ('undefined', '<25', '25-34', '35-44', '45-54', '55-64', '65-74', '75-84', '>84');
+drop table if exists impfung cascade ;
 
-drop type if exists impfstoff;
-create type impfstoff as enum ('undefined', 'BioNTech Pfizer', 'AstraZeneca', 'Moderna', 'Janssen');
+drop type if exists geschlecht cascade ;
+create type geschlecht as enum ('undefined', 'm', 'w', 'd', 'Alle Geschlechter');
+
+drop type if exists gruppe cascade ;
+create type gruppe as enum ('undefined', '12-24', '25-34', '35-44', '45-54', '55-64', '65-74', '75-84', '>84', 'Impfbare Bevölkerung', 'Alle Altersgruppen');
+
+drop type if exists impfstoff cascade ;
+create type impfstoff as enum ('undefined', 'BioNTech Pfizer', 'AstraZeneca', 'Moderna', 'Janssen', 'Alle Impfstoffe');
 
 create table impfung
 (
@@ -186,7 +188,7 @@ create table impfung
     gruppe     gruppe     not null,
     geschlecht geschlecht not null,
     dosis      int        not null,
-    impstoff   impfstoff  not null,
+    impfstoff   impfstoff  not null,
     anzahl     int        not null
 );
 
