@@ -46,7 +46,14 @@ set bundesland = 'Österreich'
 where (bundesland = 'Alle');
 
 insert into fallzahlen (date, bundesland, bid, fz_hosp, fz_icu, fz_hosp_free, fz_icu_free, test_gesamt)
-select meldedat, bundesland, bundesland_id, fz_hosp, fz_icu, fz_hosp_free, fz_icu_free, test_gesamt
+select meldedat,
+       bundesland,
+       bundesland_id,
+       fz_hosp,
+       fz_icu,
+       fz_hosp_free,
+       fz_icu_free,
+       test_gesamt
 from import_fallzahlen;
 
 refresh materialized view tests;

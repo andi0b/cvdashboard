@@ -167,4 +167,29 @@ create table bezirk
     primary key (gkz)
 );
 
+drop table if exists impfung;
+
+drop type if exists geschlecht;
+create type geschlecht as enum ('undefined', 'm', 'w', 'd');
+
+drop type if exists gruppe;
+create type gruppe as enum ('undefined', '<25', '25-34', '35-44', '45-54', '55-64', '65-74', '75-84', '>84');
+
+drop type if exists impfstoff;
+create type impfstoff as enum ('undefined', 'BioNTech Pfizer', 'AstraZeneca', 'Moderna', 'Janssen');
+
+create table impfung
+(
+    id         serial     not null,
+    date       timestamp  not null,
+    bid        int        not null,
+    gruppe     gruppe     not null,
+    geschlecht geschlecht not null,
+    dosis      int        not null,
+    impstoff   impfstoff  not null,
+    anzahl     int        not null
+);
+
+create index IDX_impfung_date_bid on impfung(bid asc, date desc);
+
 commit;
