@@ -14,9 +14,12 @@ create temporary table import_impfung
     teilgeimpfte_pro_100                     float,
     vollimmunisierte                         int,
     vollimmunisierte_pro_100                 float,
-    gruppe_lt_25_m_1                         int,
-    gruppe_lt_25_w_1                         int,
-    gruppe_lt_25_d_1                         int,
+    gruppe_lt_15_m_1                         int,
+    gruppe_lt_15_w_1                         int,
+    gruppe_lt_15_d_1                         int,
+    gruppe_15_24_m_1                         int,
+    gruppe_15_24_w_1                         int,
+    gruppe_15_24_d_1                         int,
     gruppe_25_34_m_1                         int,
     gruppe_25_34_w_1                         int,
     gruppe_25_34_d_1                         int,
@@ -38,9 +41,12 @@ create temporary table import_impfung
     gruppe_gt_84_m_1                         int,
     gruppe_gt_84_w_1                         int,
     gruppe_gt_84_d_1                         int,
-    gruppe_lt_25_m_2                         int,
-    gruppe_lt_25_w_2                         int,
-    gruppe_lt_25_d_2                         int,
+    gruppe_lt_15_m_2                         int,
+    gruppe_lt_15_w_2                         int,
+    gruppe_lt_15_d_2                         int,
+    gruppe_15_24_m_2                         int,
+    gruppe_15_24_w_2                         int,
+    gruppe_15_24_d_2                         int,
     gruppe_25_34_m_2                         int,
     gruppe_25_34_w_2                         int,
     gruppe_25_34_d_2                         int,
@@ -69,25 +75,26 @@ create temporary table import_impfung
     eingetragene_impfungen_biontech_pfizer_2 int,
     eingetragene_impfungen_moderna_2         int,
     eingetragene_impfungen_astra_zeneca_2    int,
-    eingetragene_impfungen_janssen           int
+    eingetragene_impfungen_janssen           int,
+    ImpfstoffNichtZugeordnet_1               int,
+    ImpfstoffNichtZugeordnet_2               int
 );
 
-copy import_impfung (datum, bundesland_id, bevölkerung, name, eingetragene_impfungen, eingetragene_impfungen_pro_100,
-                     teilgeimpfte, teilgeimpfte_pro_100, vollimmunisierte, vollimmunisierte_pro_100, gruppe_lt_25_m_1,
-                     gruppe_lt_25_w_1, gruppe_lt_25_d_1, gruppe_25_34_m_1, gruppe_25_34_w_1, gruppe_25_34_d_1,
-                     gruppe_35_44_m_1, gruppe_35_44_w_1, gruppe_35_44_d_1, gruppe_45_54_m_1, gruppe_45_54_w_1,
-                     gruppe_45_54_d_1, gruppe_55_64_m_1, gruppe_55_64_w_1, gruppe_55_64_d_1, gruppe_65_74_m_1,
-                     gruppe_65_74_w_1, gruppe_65_74_d_1, gruppe_75_84_m_1, gruppe_75_84_w_1, gruppe_75_84_d_1,
-                     gruppe_gt_84_m_1, gruppe_gt_84_w_1, gruppe_gt_84_d_1, gruppe_lt_25_m_2, gruppe_lt_25_w_2,
-                     gruppe_lt_25_d_2, gruppe_25_34_m_2, gruppe_25_34_w_2, gruppe_25_34_d_2, gruppe_35_44_m_2,
-                     gruppe_35_44_w_2, gruppe_35_44_d_2, gruppe_45_54_m_2, gruppe_45_54_w_2, gruppe_45_54_d_2,
-                     gruppe_55_64_m_2, gruppe_55_64_w_2, gruppe_55_64_d_2, gruppe_65_74_m_2, gruppe_65_74_w_2,
-                     gruppe_65_74_d_2, gruppe_75_84_m_2, gruppe_75_84_w_2, gruppe_75_84_d_2, gruppe_gt_84_m_2,
-                     gruppe_gt_84_w_2, gruppe_gt_84_d_2, gruppe_nicht_zuordenbar,
-                     eingetragene_impfungen_biontech_pfizer_1, eingetragene_impfungen_moderna_1,
-                     eingetragene_impfungen_astra_zeneca_1, eingetragene_impfungen_biontech_pfizer_2,
-                     eingetragene_impfungen_moderna_2, eingetragene_impfungen_astra_zeneca_2,
-                     eingetragene_impfungen_janssen)
+copy import_impfung
+    (datum, bundesland_id, bevölkerung, name, eingetragene_impfungen, eingetragene_impfungen_pro_100, teilgeimpfte,
+     teilgeimpfte_pro_100, vollimmunisierte, vollimmunisierte_pro_100, gruppe_lt_15_m_1, gruppe_lt_15_w_1,
+     gruppe_lt_15_d_1, gruppe_15_24_m_1, gruppe_15_24_w_1, gruppe_15_24_d_1, gruppe_25_34_m_1, gruppe_25_34_w_1,
+     gruppe_25_34_d_1, gruppe_35_44_m_1, gruppe_35_44_w_1, gruppe_35_44_d_1, gruppe_45_54_m_1, gruppe_45_54_w_1,
+     gruppe_45_54_d_1, gruppe_55_64_m_1, gruppe_55_64_w_1, gruppe_55_64_d_1, gruppe_65_74_m_1, gruppe_65_74_w_1,
+     gruppe_65_74_d_1, gruppe_75_84_m_1, gruppe_75_84_w_1, gruppe_75_84_d_1, gruppe_gt_84_m_1, gruppe_gt_84_w_1,
+     gruppe_gt_84_d_1, gruppe_lt_15_m_2, gruppe_lt_15_w_2, gruppe_lt_15_d_2, gruppe_15_24_m_2, gruppe_15_24_w_2,
+     gruppe_15_24_d_2, gruppe_25_34_m_2, gruppe_25_34_w_2, gruppe_25_34_d_2, gruppe_35_44_m_2, gruppe_35_44_w_2,
+     gruppe_35_44_d_2, gruppe_45_54_m_2, gruppe_45_54_w_2, gruppe_45_54_d_2, gruppe_55_64_m_2, gruppe_55_64_w_2,
+     gruppe_55_64_d_2, gruppe_65_74_m_2, gruppe_65_74_w_2, gruppe_65_74_d_2, gruppe_75_84_m_2, gruppe_75_84_w_2,
+     gruppe_75_84_d_2, gruppe_gt_84_m_2, gruppe_gt_84_w_2, gruppe_gt_84_d_2, gruppe_nicht_zuordenbar,
+     eingetragene_impfungen_biontech_pfizer_1, eingetragene_impfungen_moderna_1, eingetragene_impfungen_astra_zeneca_1,
+     eingetragene_impfungen_biontech_pfizer_2, eingetragene_impfungen_moderna_2, eingetragene_impfungen_astra_zeneca_2,
+     eingetragene_impfungen_janssen, ImpfstoffNichtZugeordnet_1, ImpfstoffNichtZugeordnet_2)
     from '/data/import/timeline-eimpfpass.csv'
     delimiter ';'
     csv header;
@@ -134,7 +141,8 @@ select datum as date,
 from import_impfung
          cross join lateral (
     values -- 1,m
-           (1, '12-24', 'm', gruppe_lt_25_m_1),
+           (1, '12-14', 'm', gruppe_lt_15_m_1),
+           (1, '15-24', 'm', gruppe_15_24_m_1),
            (1, '25-34', 'm', gruppe_25_34_m_1),
            (1, '35-44', 'm', gruppe_35_44_m_1),
            (1, '45-54', 'm', gruppe_45_54_m_1),
@@ -144,17 +152,19 @@ from import_impfung
            (1, '>84', 'm', gruppe_gt_84_m_1),
 
            -- 2,m
-           (2, '12-24', 'm', gruppe_lt_25_m_1),
-           (2, '25-34', 'm', gruppe_25_34_m_1),
-           (2, '35-44', 'm', gruppe_35_44_m_1),
-           (2, '45-54', 'm', gruppe_45_54_m_1),
-           (2, '55-64', 'm', gruppe_55_64_m_1),
-           (2, '65-74', 'm', gruppe_65_74_m_1),
-           (2, '75-84', 'm', gruppe_75_84_m_1),
-           (2, '>84', 'm', gruppe_gt_84_m_1),
+           (2, '12-14', 'm', gruppe_lt_15_m_2),
+           (2, '15-24', 'm', gruppe_15_24_m_2),
+           (2, '25-34', 'm', gruppe_25_34_m_2),
+           (2, '35-44', 'm', gruppe_35_44_m_2),
+           (2, '45-54', 'm', gruppe_45_54_m_2),
+           (2, '55-64', 'm', gruppe_55_64_m_2),
+           (2, '65-74', 'm', gruppe_65_74_m_2),
+           (2, '75-84', 'm', gruppe_75_84_m_2),
+           (2, '>84', 'm', gruppe_gt_84_m_2),
 
            -- 1,w
-           (1, '12-24', 'w', gruppe_lt_25_w_1),
+           (1, '12-14', 'w', gruppe_lt_15_w_1),
+           (1, '15-24', 'w', gruppe_15_24_w_1),
            (1, '25-34', 'w', gruppe_25_34_w_1),
            (1, '35-44', 'w', gruppe_35_44_w_1),
            (1, '45-54', 'w', gruppe_45_54_w_1),
@@ -164,7 +174,8 @@ from import_impfung
            (1, '>84', 'w', gruppe_gt_84_w_1),
 
            -- 2,w
-           (2, '12-24', 'w', gruppe_lt_25_w_2),
+           (2, '12-14', 'm', gruppe_lt_15_w_2),
+           (2, '15-24', 'w', gruppe_15_24_w_2),
            (2, '25-34', 'w', gruppe_25_34_w_2),
            (2, '35-44', 'w', gruppe_35_44_w_2),
            (2, '45-54', 'w', gruppe_45_54_w_2),
@@ -174,7 +185,8 @@ from import_impfung
            (2, '>84', 'w', gruppe_gt_84_w_2),
 
            -- 1,d
-           (1, '12-24', 'd', gruppe_lt_25_d_1),
+           (1, '12-14', 'd', gruppe_lt_15_d_1),
+           (1, '15-24', 'd', gruppe_15_24_d_1),
            (1, '25-34', 'd', gruppe_25_34_d_1),
            (1, '35-44', 'd', gruppe_35_44_d_1),
            (1, '45-54', 'd', gruppe_45_54_d_1),
@@ -184,7 +196,8 @@ from import_impfung
            (1, '>84', 'd', gruppe_gt_84_d_1),
 
            -- 2,d
-           (2, '12-24', 'd', gruppe_lt_25_d_2),
+           (1, '12-14', 'd', gruppe_lt_15_d_1),
+           (1, '15-24', 'd', gruppe_15_24_d_1),
            (2, '25-34', 'd', gruppe_25_34_d_2),
            (2, '35-44', 'd', gruppe_35_44_d_2),
            (2, '45-54', 'd', gruppe_45_54_d_2),
@@ -198,17 +211,17 @@ from import_impfung
 insert into impfung (date, bid, gruppe, geschlecht, dosis, impfstoff, anzahl)
 
 -- altersgruppen für 'Alle Geschlechter' berechnen
-(select date, bid, gruppe, 'Alle Geschlechter'::geschlecht, dosis, impfstoff, sum(anzahl)
-from impfung
-where geschlecht <> 'Alle Geschlechter'
-group by date, bid, gruppe, dosis, impfstoff)
+    (select date, bid, gruppe, 'Alle Geschlechter'::geschlecht, dosis, impfstoff, sum(anzahl)
+     from impfung
+     where geschlecht <> 'Alle Geschlechter'
+     group by date, bid, gruppe, dosis, impfstoff)
 
 union
 -- Werte für alle Geschlechter für Altersgruppen "Impfbare Bevölkerung" und "Alle Altersgruppen" berechnen
 (select date, bid, 'Impfbare Bevölkerung'::gruppe, geschlecht, dosis, impfstoff, sum(anzahl)
-from impfung
-where gruppe <> 'Impfbare Bevölkerung'
-group by date, bid, geschlecht, dosis, impfstoff);
+ from impfung
+ where gruppe <> 'Impfbare Bevölkerung'
+ group by date, bid, geschlecht, dosis, impfstoff);
 
 cluster impfung using idx_impfung_date_bid;
 
@@ -259,13 +272,14 @@ drop materialized view if exists altersgruppen_by_bundesland cascade;
 create materialized view altersgruppen_by_bundesland as
 with parameters as (
     select *
-    from (values ('12-24', 12, 24),
+    from (values ('12-14', 12, 14),
+                 ('15-24', 15, 24),
                  ('25-34', 25, 34),
-                 ('35-44', 25, 44),
-                 ('45-54', 25, 54),
-                 ('55-64', 25, 64),
-                 ('65-74', 25, 74),
-                 ('75-84', 25, 84),
+                 ('35-44', 35, 44),
+                 ('45-54', 45, 54),
+                 ('55-64', 55, 64),
+                 ('65-74', 65, 74),
+                 ('75-84', 75, 84),
                  ('>84', 85, 100),
                  ('Impfbare Bevölkerung', 12, 100),
                  ('Alle Altersgruppen', 0, 100)
