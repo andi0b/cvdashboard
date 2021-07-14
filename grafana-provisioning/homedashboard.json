@@ -29,7 +29,7 @@
       },
       "id": 4,
       "options": {
-        "content": "# COVID-19 Dashboard Österreich\n\n## - [Inzidenz](/d/c664EFpGk/inzidenz)</h2>\n## - [Fälle](/d/9778YUpGz/falle)</h2>\n## - [Hospitalisierung](/d/aXA0yo2Gz/hospitalisierung)</h2>\n## - [Prognose](/d/o6AcbYTMk/fallzahlen-prognose)</h2>   \n",
+        "content": "# COVID-19 Dashboard Österreich\n\n## - [Inzidenz](/d/c664EFpGk/inzidenz)</h2>\n## - [Fälle](/d/9778YUpGz/falle)</h2>\n## - [Hospitalisierung](/d/aXA0yo2Gz/hospitalisierung)</h2>\n## - [Prognose](/d/o6AcbYTMk/fallzahlen-prognose)</h2>\n## - [Impfrate](/d/dXBdTbm7k/impfrate)</h2> ",
         "mode": "markdown"
       },
       "pluginVersion": "8.0.3",
@@ -692,7 +692,7 @@
       },
       "id": 16,
       "options": {
-        "content": "# Anmerkungen\n\nDie Daten in diesem Dashboard stammen von [OpenData/AGES](https://www.data.gv.at/covid-19/) und werden täglich um 14:30 aktualisiert.\n\nEs wird keine Gewähr für die Richtigkeit der Daten in diesem Dashboard übernommen, noch werden die Daten selbst von uns auf ihre Richtigkeit überprüft. \n\nDieses Dashboard ist Open Source: [GitHub](https://github.com/andi0b/cvdashboard)\n\n## Impressum\nFirma greenwasp GmbH <br/>\nFN: 399041a, Landesgericht Eisenstadt <br/>\nKontaktdaten/Unternehmensgegenstand: siehe [www.greenwasp.at](http://greenwasp.at)",
+        "content": "# Anmerkungen\n\nDie Daten in diesem Dashboard stammen von [OpenData/AGES](https://www.data.gv.at/covid-19/) und werden täglich um 14:30 aktualisiert.\n\nDaten zum Impffortschritt stammen vom [Sozialministerium/Open Data Österreich ](https://www.data.gv.at/katalog/dataset/4312623f-2cdc-4a59-bea5-877310e6e48d), Demographische Daten werden von der [Statitik Austria (open.data Bevölkerungsstand 2021)](https://data.statistik.gv.at/web/meta.jsp?dataset=OGD_bevstandjbab2002_BevStand_2021) bezogen. Für nicht-binäre Personen liegen keine passenden demographischen Daten vor, deswegen sind einige Auswertungen nur für männlich und weiblich verfügbar, Auswertungen mit der Bezeichnung \"Alle Geschlechter\" enthalten jedoch nicht-binäre Personen.\n\nEs wird keine Gewähr für die Richtigkeit der Daten in diesem Dashboard übernommen, noch werden die Daten selbst von uns auf ihre Richtigkeit überprüft. \n\nDieses Dashboard ist Open Source: [GitHub](https://github.com/andi0b/cvdashboard)\n\n## Impressum\nFirma greenwasp GmbH <br/>\nFN: 399041a, Landesgericht Eisenstadt <br/>\nKontaktdaten/Unternehmensgegenstand: siehe [www.greenwasp.at](http://greenwasp.at)",
         "mode": "markdown"
       },
       "pluginVersion": "8.0.3",
