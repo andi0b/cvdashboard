@@ -318,4 +318,54 @@ select t.*,
 from total t
          left join altersgruppen_by_bundesland a
                    on t.geschlecht = a.geschlecht and t.gruppe = a.gruppe and t.bid = a.bid;
+
+
+create type t_gruppe_bundeslaender as
+(
+    "Gruppe"           gruppe,
+    "Österreich"       float,
+    "Burgenland"       float,
+    "Kärnten"          float,
+    "Niederösterreich" float,
+    "Oberösterreich"   float,
+    "Salzburg"         float,
+    "Steiermark"       float,
+    "Tirol"            float,
+    "Vorarlberg"       float,
+    "Wien"             float
+);
+
+
+create or replace function crosstab_gruppe_bundeslaender(text, text)
+    returns setof t_gruppe_bundeslaender
+as
+'$libdir/tablefunc',
+'crosstab_hash' language C stable
+                      strict;
+
+
+
+drop function if exists impfraten_over_bundesland(int, text, geschlecht, impfstoff);
+create or replace function impfraten_over_bundesland(dosis int, metric text default 'impfrate',
+                                                     geschlecht geschlecht default 'Alle Geschlechter',
+                                                     impfstoff impfstoff default 'Alle Impfstoffe')
+    returns setof t_gruppe_bundeslaender
+    language sql
+    stable
+as
+$$
+select *
+from crosstab_gruppe_bundeslaender('
+SELECT distinct on (impfraten.bid, gruppe)
+   gruppe, bl.bundesland, ' || metric || '
+FROM impfraten
+left join bundesland bl on bl.bid = impfraten.bid
+WHERE (impfraten.bid>0)
+  and geschlecht=''' || geschlecht::text || '''
+  and impfstoff=''' || impfstoff::text || '''
+  and dosis=' || dosis::text || '
+ORDER BY gruppe, impfraten.bid, gruppe, date desc',
+                                   'select bundesland from bundesland')
+$$;
+
 commit;

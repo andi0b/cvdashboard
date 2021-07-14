@@ -1,3 +1,5 @@
+create extension if not exists tablefunc;
+
 \i 00_create_tables.sql
 \i 01_create_functions.sql
 \i 02_plr.sql
