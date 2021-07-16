@@ -14,17 +14,20 @@ start the services:
 ```sh
 docker-compose up -d
 ```
+wait a bit until the data is loaded an imported
 
-create database and import data:
-```sh
- sh scripts/download-data.sh
- sh scripts/init-db.sh
-```
+Open grafana: http://localhost:3000
 
-open grafana: http://localhost:3000
+Default grafana credentials are user/pass
 
-update to newest release (all changes made in the grafana ui will be lost), delete containers and start over from the top:
-```sh
-docker-compose stop
-docker-compose rm -fv
-```
+# Deploy it
+
+Copy `.env.sample` to `.env` and set a password for the Grafana admin user.
+
+# Develop
+
+- Copy `docker-compose.override.yml.development` to `docker-compose.override.yml` to access the Postgres database on `localhost`
+- Modify scripts inside `db` folder to do changes on the database
+- run `sh scripts/download-data` to download/update the source data
+- run `sh scripts/init-db-docker.sh` to rebuild the database
+- Modify/add Grafana dashboards inside `grafana-provisioning/dashboard-content`
