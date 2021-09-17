@@ -319,7 +319,7 @@ from total t
          left join altersgruppen_by_bundesland a
                    on t.geschlecht = a.geschlecht and t.gruppe = a.gruppe and t.bid = a.bid;
 
-
+drop type if exists t_gruppe_bundeslaender cascade; 
 create type t_gruppe_bundeslaender as
 (
     "Gruppe"           gruppe,
