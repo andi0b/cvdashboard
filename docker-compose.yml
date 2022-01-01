@@ -3,7 +3,7 @@ version: "3.3"
 services:
 
   grafana:
-    image: grafana/grafana:8.0.3
+    image: grafana/grafana:8.2.5
     restart: always
     environment:
       - GRAFANA_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
