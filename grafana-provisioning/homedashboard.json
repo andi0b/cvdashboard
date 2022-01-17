@@ -29,7 +29,7 @@
       },
       "id": 4,
       "options": {
-        "content": "# COVID-19 Dashboard Österreich\n\n## - [Inzidenz](/d/c664EFpGk/inzidenz)</h2>\n## - [Fälle](/d/9778YUpGz/falle)</h2>\n## - [Hospitalisierung](/d/aXA0yo2Gz/hospitalisierung)</h2>\n## - [Prognose](/d/o6AcbYTMk/fallzahlen-prognose)</h2>\n## - [Impfrate](/d/dXBdTbm7k/impfrate)</h2> ",
+        "content": "# COVID-19 Dashboard Österreich\n\n## - [Inzidenz](/d/c664EFpGk/inzidenz)</h2>\n## - [Fälle](/d/9778YUpGz/falle)</h2>\n## - [Hospitalisierung](/d/aXA0yo2Gz/hospitalisierung)</h2>\n## - [Prognose](/d/o6AcbYTMk/fallzahlen-prognose)</h2>",
         "mode": "markdown"
       },
       "pluginVersion": "8.0.3",

@@ -21,4 +21,4 @@
 #
 # m h  dom mon dow   command
 
-30 13,14 * * *       sh /scripts/download-data.sh && sh /scripts/init-db.sh
+30 13,14,15 * * *       sh /scripts/download-data.sh && sh /scripts/init-db.sh
