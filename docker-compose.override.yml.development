@@ -6,7 +6,3 @@ services:
     command: "postgres -c shared_preload_libraries='pg_stat_statements' -c pg_stat_statements.max=10000 -c pg_stat_statements.track=all"
     ports:
       - "127.0.0.1:5432:5432"
-
-  pgpool:
-    ports:
-      - "127.0.0.1:5433:5432"

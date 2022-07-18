@@ -29,22 +29,6 @@ services:
       - "./data:/data"
       - "./db:/db"
 
-  pgpool:
-    image: bitnami/pgpool:4
-    restart: always
-    environment:
-      - PGPOOL_BACKEND_NODES=0:db:5432
-      - PGPOOL_ENABLE_LDAP=no
-      - PGPOOL_SR_CHECK_USER=${POSTGRES_USER:-postgres}
-      - PGPOOL_SR_CHECK_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - PGPOOL_POSTGRES_USERNAME=${POSTGRES_USER:-postgres}
-      - PGPOOL_POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - PGPOOL_ADMIN_USERNAME=${POSTGRES_USER:-postgres}
-      - PGPOOL_ADMIN_PASSWORD=${POSTGRES_PASSWORD:-postgres}
-      - PGPOOL_USER_CONF_FILE=/config/pgpool.conf
-    volumes:
-      - "./pgpool.conf:/config/pgpool.conf"
-
   import-data-service:
     image: ghcr.io/andi0b/cvdashboard-import-data-service
     build:

@@ -1,4 +1,4 @@
-FROM postgres:13-alpine as base
+FROM postgres:15beta2-alpine as base
 
 FROM base as build-r
 RUN apk add --update-cache R R-dev R-doc g++
