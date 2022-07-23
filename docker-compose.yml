@@ -6,6 +6,7 @@ services:
     image: grafana/grafana:9.0.3
     restart: always
     environment:
+      - POSTGRES_HOST=${POSTGRES_HOST:-db}
       - GRAFANA_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
       - GRAFANA_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
       - GRAFANA_POSTGRES_USER=${GRAFANA_POSTGRES_USER:-postgres}
@@ -35,7 +36,8 @@ services:
       context: import-data-service/
     
     environment:
-      - PGUSER=${POSTGRES_USER:-postgres}
+      - POSTGRES_HOST=${POSTGRES_HOST:-db}
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - PGPASSWORD=${POSTGRES_PASSWORD:-postgres}
 
     volumes:

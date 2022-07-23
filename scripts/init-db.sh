@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /db
-psql -U $PGUSER -d postgres -h db -f init.sql
+psql -U $POSTGRES_USER -d postgres -h $POSTGRES_HOST -f init.sql
