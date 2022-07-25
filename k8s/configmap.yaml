@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cvdashboard
+data:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  GRAFANA_ADMIN_USER: user
+  GRAFANA_ADMIN_PASSWORD: pass
+  GRAFANA_POSTGRES_USER: grafana
+  GRAFANA_POSTGRES_PASSWORD: grafana

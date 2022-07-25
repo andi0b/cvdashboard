@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cvdashboard
+  name: cvdashboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cvdashboard
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: cvdashboard
+    spec:
+      volumes:
+        - name: shared
+          emptyDir: {}
+      initContainers:
+      # Init with data grom GIT repo
+        - name: init-git-pull
+          image: alpine/git
+          command: [ "/bin/sh" ]
+          args: 
+          - "-c"
+          - "rm -rf /git/* && git clone --depth 1 https://github.com/andi0b/cvdashboard /git"
+          volumeMounts:
+            - mountPath: /git
+              name: shared
+      containers:
+      
+      # Database
+      - image: ghcr.io/andi0b/cvdashboard-postgres-r
+        name: db
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: cvdashboard
+              key: POSTGRES_USER
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: cvdashboard
+              key: POSTGRES_PASSWORD
+        startupProbe:
+          periodSeconds: 20
+          failureThreshold: 30 # it may take 10 minutes until the DB is initialized
+          exec: 
+            command: ['/bin/sh', '/scripts/db-ready.sh' ]
+        volumeMounts:
+          - mountPath: /data
+            subPath: data
+            name: shared
+          - mountPath: /scripts
+            subPath: scripts
+            name: shared
+        ports:
+          - containerPort: 3000
+            name: http
+        resources: {}
+
+      # Grafana
+      - image: grafana/grafana:9.0.3
+        name: grafana
+        env:
+        - name: POSTGRES_HOST
+          value: localhost   
+        - name: GRAFANA_ADMIN_USER
+          valueFrom:
+            configMapKeyRef:
+              name: cvdashboard
+              key: GRAFANA_ADMIN_USER
+        - name: GRAFANA_ADMIN_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: cvdashboard
+              key: GRAFANA_ADMIN_PASSWORD
+        - name: GRAFANA_POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: cvdashboard
+              key: GRAFANA_POSTGRES_USER
+        - name: GRAFANA_POSTGRES_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: cvdashboard
+              key: GRAFANA_POSTGRES_PASSWORD                     
+        volumeMounts:
+          - mountPath: /etc/grafana/provisioning
+            subPath: grafana-provisioning
+            name: shared
+          - mountPath: /etc/grafana/grafana.ini
+            subPath: grafana-provisioning/grafana.ini
+            name: shared
+        ports:
+          - containerPort: 5432
+            name: pg
+            
+        resources: {}
+
+      # Import Data Cron-Job
+      - image: ghcr.io/andi0b/cvdashboard-import-data-service
+        name: import-data-service
+        env:
+        - name: POSTGRES_HOST
+          value: localhost        
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: cvdashboard
+              key: POSTGRES_USER
+        - name: PGPASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: cvdashboard
+              key: POSTGRES_PASSWORD        
+        volumeMounts:
+          - mountPath: /data
+            subPath: data
+            name: shared
+          - mountPath: /db
+            subPath: db
+            name: shared
+          - mountPath: /scripts
+            subPath: scripts
+            name: shared
+        resources: {}
+status: {}
