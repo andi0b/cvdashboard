@@ -1,6 +1,10 @@
 name: postres-r Container Build
 
-on: workflow_dispatch
+on: 
+  workflow_dispatch: {}
+  push:
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
 
 env:
   REGISTRY: ghcr.io
