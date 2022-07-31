@@ -4,19 +4,19 @@
 
 replicaCount: 1
 
-image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+postgresUser: postgres
+postgresPassword: ""
+grafanaAdminUser: user
+grafanaAdminPassword: ""
+
+
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
@@ -27,14 +27,6 @@ podAnnotations: {}
 
 podSecurityContext: {}
   # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
 
 service:
   type: ClusterIP
@@ -56,18 +48,6 @@ ingress:
   #    hosts:
   #      - chart-example.local
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
-
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -79,4 +59,54 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+# not implemented yet
+# affinity: {}
+
+db:
+  image:
+    repository: ghcr.io/andi0b/cvdashboard-postgres-r
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+    # runAsNonRoot: true
+    # runAsUser: 1000
+
+grafana:
+  image:
+    repository: grafana/grafana
+    pullPolicy: Always
+    # defaults to latest verified version, increasing patch version should always work, 
+    # minor version most of the times too
+    tag: ""
+  resources: {}
+  securityContext: {}
+
+importDataService:
+  image:
+    repository: ghcr.io/andi0b/cvdashboard-import-data-service
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+  resources: {}
+  securityContext: {}
+
+gitInit:
+  image:
+    repository: alpine/git
+    pullPolicy: Always
+    # defaults to latest verified version, latest will work with a very high chance
+    tag: ""
+  resources: {}
+  securityContext: {}

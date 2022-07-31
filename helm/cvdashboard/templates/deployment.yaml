@@ -27,26 +27,130 @@ spec:
       serviceAccountName: {{ include "cvdashboard.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+            
+      volumes:
+        - name: shared
+          emptyDir: {}     
+      
+      initContainers:
+      
+      # Init with data grom GIT repo
+        - name: {{ .Chart.Name }}-init-git-pull
+          securityContext:
+            {{- toYaml .Values.gitInit.securityContext | nindent 12 }}
+          image: "{{ .Values.gitInit.image.repository }}:{{ .Values.gitInit.image.tag | default "v2.36.2" }}"
+          imagePullPolicy: {{ .Values.gitInit.image.pullPolicy }}
+          command: [ "/bin/sh" ]
+          args: 
+          - "-c"
+          - "rm -rf /git/* && git clone --depth 1 https://github.com/andi0b/cvdashboard /git"
+          volumeMounts:
+            - mountPath: /git
+              name: shared
+          resources:
+            {{- toYaml .Values.gitInit.resources | nindent 12 }}      
+
+      
       containers:
-        - name: {{ .Chart.Name }}
+        # --------
+        # Database
+        - name: {{ .Chart.Name }}-db
+          securityContext:
+            {{- toYaml .Values.db.securityContext | nindent 12 }}
+          image: "{{ .Values.db.image.repository }}:{{ .Values.db.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.db.image.pullPolicy }}
+          env:
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                name: cvdashboard
+                key: POSTGRES_USER
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "cvdashboard.secret" . | quote }}
+                key: postgresPassword     
+          startupProbe:
+            periodSeconds: 20
+            failureThreshold: 30 # it may take 10 minutes until the DB is initialized
+            exec: 
+              command: ['/bin/sh', '/scripts/db-ready.sh' ]
+          volumeMounts:
+            - mountPath: /data
+              subPath: data
+              name: shared
+            - mountPath: /scripts
+              subPath: scripts
+              name: shared
+          ports:
+            - containerPort: 5432
+              name: pg
+          resources:
+            {{- toYaml .Values.db.resources | nindent 12 }}      
+        # -------
+        # Grafana
+        - name: {{ .Chart.Name }}-grafana
+          securityContext:
+            {{- toYaml .Values.grafana.securityContext | nindent 12 }}
+          image: "{{ .Values.grafana.image.repository }}:{{ .Values.grafana.image.tag | default "9.0.5" }}"
+          imagePullPolicy: {{ .Values.grafana.image.pullPolicy }}
+          env:
+          - name: POSTGRES_HOST
+            value: localhost   
+          - name: GRAFANA_ADMIN_USER
+            value: {{ .Values.grafanaAdminUser }}
+          - name: GRAFANA_ADMIN_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "cvdashboard.secret" . | quote }}
+                key: grafanaAdminPassword
+          - name: GRAFANA_POSTGRES_USER
+            value: grafana
+          - name: GRAFANA_POSTGRES_PASSWORD
+            value: grafana                  
+          volumeMounts:
+            - mountPath: /etc/grafana/provisioning
+              subPath: grafana-provisioning
+              name: shared
+            - mountPath: /etc/grafana/grafana.ini
+              subPath: grafana-provisioning/grafana.ini
+              name: shared
+          ports:
+            - containerPort: 3000
+              name: http
+          resources:
+            {{- toYaml .Values.grafana.resources | nindent 12 }}      
+        # -------
+        # Import Data Cron-Job
+        - name: {{ .Chart.Name }}-import-data-service
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+          image: "{{ .Values.importDataService.image.repository }}:{{ .Values.importDataService.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.importDataService.image.pullPolicy }}
+          env:
+          - name: POSTGRES_HOST
+            value: localhost        
+          - name: POSTGRES_USER
+            value: {{ .Values.postgresUser }}
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "cvdashboard.secret" . | quote }}
+                key: postgresPassword     
+          volumeMounts:
+            - mountPath: /data
+              subPath: data
+              name: shared
+            - mountPath: /db
+              subPath: db
+              name: shared
+            - mountPath: /scripts
+              subPath: scripts
+              name: shared
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml .Values.importDataService.resources | nindent 12 }}      
+
+
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -55,6 +159,16 @@ spec:
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+              
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              "app.kubernetes.io/name": {{ include "cvdashboard.name" . }}
+              "app.kubernetes.io/instance": {{ .Release.Name }}
+
       {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
