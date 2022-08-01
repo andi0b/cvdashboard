@@ -1,0 +1,14 @@
+apiVersion: v1
+entries:
+  cvdashboard:
+  - apiVersion: v2
+    appVersion: main
+    created: "2022-08-01T20:26:34.729621475Z"
+    description: COVID 19 Dashboard for Austria
+    digest: c9430f59d7df9b00287c19694c50d4b5125987b8180cf2e2d7b8136924f3e1ea
+    name: cvdashboard
+    type: application
+    urls:
+    - https://github.com/andi0b/cvdashboard/releases/download/cvdashboard-0.1.0/cvdashboard-0.1.0.tgz
+    version: 0.1.0
+generated: "2022-08-01T20:26:34.539346843Z"
